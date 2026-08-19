@@ -1,39 +1,39 @@
 (() => {
 "use strict";
 
-const BUILD_VERSION="0.19.0";
-const STORAGE_KEY="crimson_web_patrol_v19";
-const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
+const BUILD_VERSION="0.20.0";
+const STORAGE_KEY="crimson_web_patrol_v20";
+const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v19","crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
 const SUPPORTED_GAME_LANGS=["ru"];
-const PRESTIGE_REQUIREMENT=12000000;
+const PRESTIGE_REQUIREMENT=9000000;
 const BOOST_MS=2*60*1000;
 const CHEST_MS=10*60*1000;
 const DAY_MS=24*60*60*1000;
 const THEMES=["red","dark","light","neon"];
 const TRACKS=[
-  {name:"Ночной дозор",icon:"🌙",tempo:300,bpm:100,root:110,pattern:[0,7,3,10,5,12,7,3],bass:[0,0,5,3],energy:1},
-  {name:"Красная скорость",icon:"🔴",tempo:220,bpm:136,root:98,pattern:[0,3,7,10,12,10,7,5],bass:[0,7,5,3],energy:2},
-  {name:"Неоновая погоня",icon:"🌃",tempo:190,bpm:158,root:123.47,pattern:[0,5,7,12,10,7,5,3],bass:[0,5,3,7],energy:3},
-  {name:"Крыши в огне",icon:"🔥",tempo:235,bpm:128,root:116.54,pattern:[0,7,10,12,7,5,3,7],bass:[0,3,5,7],energy:2},
-  {name:"Стальной ритм",icon:"⚙️",tempo:255,bpm:118,root:103.83,pattern:[0,3,5,7,10,7,5,3],bass:[0,0,7,5],energy:2},
-  {name:"Город не спит",icon:"🌆",tempo:205,bpm:146,root:130.81,pattern:[0,7,12,10,7,5,10,12],bass:[0,5,7,3],energy:3},
-  {name:"Сигнал тревоги",icon:"🚨",tempo:155,bpm:194,root:110,pattern:[0,1,7,6,10,7,12,10],bass:[0,1,0,6],energy:4,eventOnly:true},
-  {name:"Последний рубеж",icon:"👑",tempo:135,bpm:222,root:82.41,pattern:[0,3,7,12,10,7,15,12],bass:[0,0,3,7],energy:5,bossOnly:true},
-  {name:"Глубина Нексуса",icon:"🕳️",tempo:176,bpm:170,root:92.50,pattern:[0,7,10,3,12,7,15,10],bass:[0,3,0,7],energy:4,premium:true},
-  {name:"Хищник в неоне",icon:"👹",tempo:168,bpm:178,root:103.83,pattern:[0,3,10,7,12,10,15,7],bass:[0,0,5,7],energy:4,premium:true},
-  {name:"Орбитальный разгон",icon:"🪐",tempo:158,bpm:190,root:116.54,pattern:[0,7,12,15,10,7,17,12],bass:[0,7,5,3],energy:5,premium:true}
+  {name:"Шёлк над крышами",icon:"🌙",tempo:420,bpm:72,root:110,pattern:[0,4,7,11,7,4,2,7],bass:[0,0,5,4],energy:1},
+  {name:"Багровый вальс",icon:"🔴",tempo:360,bpm:84,root:98,pattern:[0,7,11,14,9,7,4,2],bass:[0,4,5,2],energy:2},
+  {name:"Неоновая акварель",icon:"🌃",tempo:330,bpm:91,root:123.47,pattern:[0,4,9,11,7,4,2,9],bass:[0,5,4,2],energy:2},
+  {name:"Дождь на антеннах",icon:"🌧️",tempo:390,bpm:77,root:116.54,pattern:[0,7,9,14,11,7,4,2],bass:[0,4,2,5],energy:2},
+  {name:"Хрустальный воздух",icon:"❄️",tempo:450,bpm:67,root:103.83,pattern:[0,4,7,14,11,9,7,2],bass:[0,5,4,2],energy:1},
+  {name:"Орбита света",icon:"🪐",tempo:375,bpm:80,root:130.81,pattern:[0,7,11,16,14,11,7,4],bass:[0,4,5,2],energy:2},
+  {name:"Тонкая тревога",icon:"🚨",tempo:285,bpm:105,root:110,pattern:[0,2,7,6,11,9,7,4],bass:[0,2,0,5],energy:3,eventOnly:true},
+  {name:"Корона бездны",icon:"👑",tempo:260,bpm:115,root:82.41,pattern:[0,3,7,11,10,7,15,12],bass:[0,0,3,7],energy:4,bossOnly:true},
+  {name:"Эхо Нексуса",icon:"🕳️",tempo:350,bpm:86,root:92.50,pattern:[0,7,11,4,14,11,16,9],bass:[0,4,0,7],energy:3,premium:true},
+  {name:"Бархатный неон",icon:"💠",tempo:320,bpm:94,root:103.83,pattern:[0,4,11,7,14,11,16,9],bass:[0,0,5,7],energy:3,premium:true},
+  {name:"Звёздный салон",icon:"✨",tempo:405,bpm:74,root:116.54,pattern:[0,7,11,16,14,9,18,14],bass:[0,7,5,4],energy:3,premium:true}
 ];
 
 const upgrades={
- thread:{icon:"🧵",name:"Энергетическая нить",desc:"+1 к силе выпуска",base:15,growth:1.16,click:1,passive:0,unlockLevel:1},
- gauntlet:{icon:"🧤",name:"Импульсная перчатка",desc:"+6 к силе выпуска",base:120,growth:1.18,click:6,passive:0,unlockLevel:2},
- scanner:{icon:"📡",name:"Сканер переулков",desc:"+1 дозор/сек",base:25,growth:1.16,click:0,passive:1,unlockLevel:1},
- rooftop:{icon:"🌃",name:"Пост на крышах",desc:"+8 дозор/сек",base:280,growth:1.17,click:0,passive:8,unlockLevel:3},
- drone:{icon:"🛸",name:"Нитедрон",desc:"+60 дозор/сек",base:2500,growth:1.18,click:0,passive:60,unlockLevel:6},
- sentinel:{icon:"🦾",name:"Красный Страж",desc:"+450 дозор/сек",base:22000,growth:1.19,click:0,passive:450,unlockLevel:9},
- riders:{icon:"🏍️",name:"Ночной отряд",desc:"+3.5K дозор/сек",base:190000,growth:1.20,click:0,passive:3500,unlockLevel:13},
- wardens:{icon:"🛡️",name:"Стражи Сети",desc:"+28K дозор/сек",base:1800000,growth:1.21,click:0,passive:28000,unlockLevel:18},
- nexus:{icon:"🌌",name:"Нексус мегаполиса",desc:"+240K дозор/сек",base:18000000,growth:1.22,click:0,passive:240000,unlockLevel:25}
+ thread:{icon:"🧵",name:"Энергетическая нить",desc:"+1 к силе выпуска",base:12,growth:1.15,click:1,passive:0,unlockLevel:1},
+ gauntlet:{icon:"🧤",name:"Импульсная перчатка",desc:"+6 к силе выпуска",base:100,growth:1.17,click:6,passive:0,unlockLevel:2},
+ scanner:{icon:"📡",name:"Сканер переулков",desc:"+1 дозор/сек",base:20,growth:1.15,click:0,passive:1,unlockLevel:1},
+ rooftop:{icon:"🌃",name:"Пост на крышах",desc:"+8 дозор/сек",base:220,growth:1.16,click:0,passive:8,unlockLevel:3},
+ drone:{icon:"🛸",name:"Нитедрон",desc:"+60 дозор/сек",base:1800,growth:1.17,click:0,passive:60,unlockLevel:6},
+ sentinel:{icon:"🦾",name:"Красный Страж",desc:"+450 дозор/сек",base:15000,growth:1.18,click:0,passive:450,unlockLevel:9},
+ riders:{icon:"🏍️",name:"Ночной отряд",desc:"+3.5K дозор/сек",base:120000,growth:1.19,click:0,passive:3500,unlockLevel:13},
+ wardens:{icon:"🛡️",name:"Стражи Сети",desc:"+28K дозор/сек",base:1000000,growth:1.20,click:0,passive:28000,unlockLevel:18},
+ nexus:{icon:"🌌",name:"Нексус мегаполиса",desc:"+240K дозор/сек",base:9000000,growth:1.21,click:0,passive:240000,unlockLevel:25}
 };
 
 const achievementDefs=[
@@ -72,12 +72,17 @@ const DANGER_TIERS=[
 
 const HERO_LINES=["Город ещё не спит.","Вижу движение на крышах.","Сеть чувствует угрозу.","Ещё один квартал под защитой.","Нельзя терять темп.","Слышишь сирены? Я уже там.","Сегодня город будет тише.","Держим линию.","Есть контакт. Работаем.","Крыши — лучший наблюдательный пункт."];
 
-const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp",nika:"assets/chibi/nika.webp",rey:"assets/chibi/rey.webp",mira:"assets/chibi/mira.webp",kai:"assets/chibi/kai.webp"};
-const VILLAIN_ASSETS={morana:"assets/villains/morana.webp",volt:"assets/villains/volt.webp",onyx:"assets/villains/onyx.webp"};
+const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp",nika:"assets/chibi/nika.webp",rey:"assets/chibi/rey.webp",mira:"assets/chibi/mira.webp",kai:"assets/chibi/kai.webp",umbra:"assets/chibi/umbra.webp"};
+const VILLAIN_ASSETS={morana:"assets/villains/morana.webp",volt:"assets/villains/volt.webp",magnetron:"assets/villains/magnetron.webp",burrower:"assets/villains/burrower.webp",grimoire:"assets/villains/grimoire.webp",cryon:"assets/villains/cryon.webp",onyx:"assets/villains/onyx.webp",singular:"assets/villains/singular.webp"};
 const VILLAIN_PROFILES={
  morana:{asset:"morana",name:"Морана · Алый Мираж",skin:"#9d1835",dark:"#260913",glow:"#ff5aa9",stroke:"#ffd2eb",accent:"#ff3f83",motion:"stalker"},
  volt:{asset:"volt",name:"Вольт · Нулевой Импульс",skin:"#155e72",dark:"#061c28",glow:"#63f4ff",stroke:"#dbfdff",accent:"#2fccec",motion:"glitch"},
- onyx:{asset:"onyx",name:"Оникс · Пожиратель Света",skin:"#36205e",dark:"#0c0717",glow:"#cf6cff",stroke:"#f2ddff",accent:"#9d45ef",motion:"crusher"}
+ magnetron:{asset:"magnetron",name:"Магнетрон · Владыка Доков",skin:"#126d82",dark:"#061b29",glow:"#48edff",stroke:"#dbfdff",accent:"#ff3cae",motion:"orbit"},
+ burrower:{asset:"burrower",name:"Бур · Железный Крот",skin:"#286b43",dark:"#071d16",glow:"#8cff43",stroke:"#e2ffd1",accent:"#f2a83b",motion:"crusher"},
+ grimoire:{asset:"grimoire",name:"Гримуар · Фантом Тумана",skin:"#60458e",dark:"#160d2e",glow:"#d9a5ff",stroke:"#f8efff",accent:"#8ef4ff",motion:"specter"},
+ cryon:{asset:"cryon",name:"Крион-Ноль · Сердце Купола",skin:"#337eaa",dark:"#071d38",glow:"#78efff",stroke:"#edfdff",accent:"#86a8ff",motion:"crusher"},
+ onyx:{asset:"onyx",name:"Оникс · Пожиратель Света",skin:"#36205e",dark:"#0c0717",glow:"#cf6cff",stroke:"#f2ddff",accent:"#9d45ef",motion:"crusher"},
+ singular:{asset:"singular",name:"Сингуляр · Орбитальный Разум",skin:"#24345d",dark:"#050913",glow:"#ffe39a",stroke:"#fff6d8",accent:"#d6a84c",motion:"orbit"}
 };
 
 const CHARACTERS=[
@@ -97,34 +102,18 @@ const HERO_ULTIMATES={
  kai:{icon:"◇",name:"Кристальный удар",desc:"Вектор создаёт разрушительный резонанс.",damage:.40,burst:1.4},
  umbra:{icon:"⬢",name:"Поглощение Бездны",desc:"Тень пожирает часть энергии цели.",damage:.36,burst:1.75}
 };
-
-
-const COSTUMES=[
- {id:"crimson",name:"Багровый дозор",district:"roofs",accent:"#ef233c",a:"#280710",b:"#d61c3e"},
- {id:"dock",name:"Неоновый рейдер",district:"docks",accent:"#16d9ff",a:"#052633",b:"#13c9ef"},
- {id:"mist",name:"Призрачный дозор",district:"mist",accent:"#9c78ff",a:"#241039",b:"#8859d9"},
- {id:"zero",name:"Стальной импульс",district:"zero",accent:"#ff8a1e",a:"#3d1d09",b:"#e57513"},
- {id:"nexus",name:"Нексус",district:"nexus",accent:"#d946ef",a:"#260930",b:"#bb2ad1"},
- {id:"underground",name:"Подземный охотник",district:"underground",accent:"#21d18a",a:"#062b20",b:"#20a878"},
- {id:"frost",name:"Ледяной контур",district:"frost",accent:"#7fd8ff",a:"#0b2736",b:"#82dcff"},
- {id:"orbital",name:"Орбитальный страж",district:"orbital",accent:"#ffc14d",a:"#332409",b:"#e6a92d"},
- {id:"founder",name:"Основатель Сети",district:null,source:"Набор Основателя",accent:"#ff6578",a:"#2b0710",b:"#ff5268"},
- {id:"eclipse",name:"Затмение",district:null,source:"Хранилище за Осколки",accent:"#b17cff",a:"#10071c",b:"#6d3cb0"},
- {id:"celestial",name:"Звёздный Страж",district:null,source:"Хранилище за Осколки",accent:"#ffc14d",a:"#211709",b:"#e8a72f"}
-];
-
 const DISTRICTS=[
- {id:"roofs",city:"crimson",icon:"🏙️",name:"Красные Крыши",desc:"Ночные высотки, антенны и скоростные погони.",unlock:1,accent:"#ef233c",boss:"Морана · Алый Мираж",bossAsset:"morana",bossIcon:"🕷️",bossDesc:"Теневая охотница копирует движения героев и режет сеть алыми клинками.",bossHp:75,power:35,reward:15000,xp:600,costume:"crimson",costumeName:"Багровый дозор"},
- {id:"zero",city:"crimson",icon:"🏢",name:"Нулевой Сектор",desc:"Закрытый административный квартал под контролем машин.",unlock:7,accent:"#ff7b36",boss:"Вольт · Нулевой Импульс",bossAsset:"volt",bossIcon:"⚡",bossDesc:"Скоростной техно-злодей глушит сеть и отвечает импульсом на каждую атаку.",bossHp:260,power:220,reward:180000,xp:1500,costume:"zero",costumeName:"Стальной импульс"},
+ {id:"roofs",city:"crimson",icon:"🏙️",name:"Красные Крыши",desc:"Ночные высотки, антенны и скоростные погони.",unlock:1,accent:"#ef233c",boss:"Морана · Алый Мираж",bossAsset:"morana",bossIcon:"🕷️",bossDesc:"Теневая охотница копирует движения героев и режет сеть алыми клинками.",bossHp:75,power:35,reward:3500,xp:300,shards:6},
+ {id:"zero",city:"crimson",icon:"🏢",name:"Нулевой Сектор",desc:"Закрытый административный квартал под контролем машин.",unlock:7,accent:"#ff7b36",boss:"Вольт · Нулевой Импульс",bossAsset:"volt",bossIcon:"⚡",bossDesc:"Скоростной техно-злодей глушит сеть и отвечает импульсом на каждую атаку.",bossHp:240,power:220,reward:45000,xp:900,shards:8},
 
- {id:"docks",city:"neon",icon:"⚓",name:"Неоновые Докы",desc:"Контрабандные терминалы и автономные грузовые краны.",unlock:10,accent:"#16d9ff",boss:"Магнит",bossIcon:"🧲",bossDesc:"Перепрошитый человек управляет металлом порта.",bossHp:420,power:520,reward:750000,xp:2600,costume:"dock",costumeName:"Неоновый рейдер"},
- {id:"underground",city:"neon",icon:"🚇",name:"Подземный Контур",desc:"Заброшенные линии метро скрывают нелегальные лаборатории.",unlock:16,accent:"#21d18a",boss:"Крот",bossIcon:"🦡",bossDesc:"Буровой организм в тяжёлом экзоскелете.",bossHp:900,power:1600,reward:3800000,xp:5400,costume:"underground",costumeName:"Подземный охотник"},
+ {id:"docks",city:"neon",icon:"⚓",name:"Неоновые Докы",desc:"Контрабандные терминалы и автономные грузовые краны.",unlock:10,accent:"#16d9ff",boss:"Магнетрон · Владыка Доков",bossAsset:"magnetron",bossIcon:"🧲",bossDesc:"Магнитный контрабандист поднимает краны и контейнеры одной мыслью.",bossHp:480,power:520,reward:150000,xp:1600,shards:10},
+ {id:"underground",city:"neon",icon:"🚇",name:"Подземный Контур",desc:"Заброшенные линии метро скрывают нелегальные лаборатории.",unlock:16,accent:"#21d18a",boss:"Бур · Железный Крот",bossAsset:"burrower",bossIcon:"🦡",bossDesc:"Буровой организм в тяжёлом экзоскелете проламывает линии Сети.",bossHp:1100,power:1600,reward:1200000,xp:3400,shards:12},
 
- {id:"mist",city:"frost",icon:"🌫️",name:"Белый Туман",desc:"Замёрзшие башни теряются в оптических миражах.",unlock:22,accent:"#a77cff",boss:"Грим",bossIcon:"🎭",bossDesc:"Фантом-хищник создаёт ложные цели.",bossHp:1800,power:4500,reward:17000000,xp:10500,costume:"mist",costumeName:"Призрачный дозор"},
- {id:"frost",city:"frost",icon:"❄️",name:"Ледяной Купол",desc:"Криогенный промышленный пояс вокруг климатического ядра.",unlock:28,accent:"#7fd8ff",boss:"Ноль",bossIcon:"🧊",bossDesc:"Живой кристалл замораживает энергетическую сеть.",bossHp:3600,power:13000,reward:80000000,xp:22000,costume:"frost",costumeName:"Ледяной контур"},
+ {id:"mist",city:"frost",icon:"🌫️",name:"Белый Туман",desc:"Замёрзшие башни теряются в оптических миражах.",unlock:22,accent:"#a77cff",boss:"Гримуар · Фантом Тумана",bossAsset:"grimoire",bossIcon:"🎭",bossDesc:"Элегантный фантом расщепляет себя на ледяные ложные цели.",bossHp:2200,power:4500,reward:6000000,xp:7200,shards:16},
+ {id:"frost",city:"frost",icon:"❄️",name:"Ледяной Купол",desc:"Криогенный промышленный пояс вокруг климатического ядра.",unlock:28,accent:"#7fd8ff",boss:"Крион-Ноль · Сердце Купола",bossAsset:"cryon",bossIcon:"🧊",bossDesc:"Живой криокристалл замораживает энергетическую сеть изнутри.",bossHp:4800,power:13000,reward:30000000,xp:15000,shards:20},
 
- {id:"nexus",city:"astra",icon:"🌌",name:"Разлом Нексуса",desc:"Гравитационные провалы и нестабильные линии реальности.",unlock:34,accent:"#d946ef",boss:"Оникс · Пожиратель Света",bossAsset:"onyx",bossIcon:"⬢",bossDesc:"Обсидиановый двойник Кая поглощает свет и накапливает энергию в ядре Бездны.",bossHp:7200,power:36000,reward:360000000,xp:42000,costume:"nexus",costumeName:"Нексус"},
- {id:"orbital",city:"astra",icon:"🛰️",name:"Орбитальный Узел",desc:"Последняя платформа сети над атмосферой города.",unlock:42,accent:"#ffc14d",boss:"Сингуляр",bossIcon:"☀️",bossDesc:"Орбитальный разум сжимает энергию в мини-сингулярности.",bossHp:14000,power:100000,reward:1800000000,xp:80000,costume:"orbital",costumeName:"Орбитальный страж"}
+ {id:"nexus",city:"astra",icon:"🌌",name:"Разлом Нексуса",desc:"Гравитационные провалы и нестабильные линии реальности.",unlock:34,accent:"#d946ef",boss:"Оникс · Пожиратель Света",bossAsset:"onyx",bossIcon:"⬢",bossDesc:"Обсидиановый двойник Кая поглощает свет и накапливает энергию в ядре Бездны.",bossHp:10000,power:36000,reward:160000000,xp:30000,shards:25},
+ {id:"orbital",city:"astra",icon:"🛰️",name:"Орбитальный Узел",desc:"Последняя платформа сети над атмосферой города.",unlock:42,accent:"#ffc14d",boss:"Сингуляр · Орбитальный Разум",bossAsset:"singular",bossIcon:"☀️",bossDesc:"Звёздный разум сжимает свет и гравитацию в своём ядре.",bossHp:22000,power:100000,reward:900000000,xp:60000,shards:35}
 ];
 
 const CITIES=[
@@ -150,23 +139,23 @@ const CITY_EVENT_POOLS={
   {icon:"🕷️",name:"Вторжение Алого Миража",desc:"Морана вышла на охоту и зеркалит атаки патруля.",villainAsset:"morana"}
  ],
  neon:[
-  {icon:"🤖",name:"Рой дронов",desc:"Портовые машины синхронно вышли из-под контроля."},
-  {icon:"🧲",name:"Магнитный шторм",desc:"Контейнеры и краны сорвались с креплений."},
+  {icon:"🤖",name:"Рой дронов",desc:"Портовые машины синхронно вышли из-под контроля.",villainAsset:"magnetron"},
+  {icon:"🧲",name:"Магнитный шторм",desc:"Контейнеры и краны сорвались с креплений.",villainAsset:"magnetron"},
   {icon:"⚡",name:"Перегрузка сети",desc:"Неоновая инфраструктура работает на критическом напряжении."},
-  {icon:"🧪",name:"Лабораторная утечка",desc:"Из подземного комплекса вырвался экспериментальный организм."},
+  {icon:"🧪",name:"Лабораторная утечка",desc:"Из подземного комплекса вырвался экспериментальный организм.",villainAsset:"burrower"},
   {icon:"⚡",name:"Нулевой Импульс",desc:"Вольт перехватил энергосеть порта и вызывает перегрузки.",villainAsset:"volt"}
  ],
  frost:[
-  {icon:"🌫️",name:"Белый фантом",desc:"Аномалия скрывает целый сектор в ледяном тумане."},
-  {icon:"🧊",name:"Крио-голем",desc:"Замёрзший промышленный автомат ожил."},
-  {icon:"🌨️",name:"Сверхметель",desc:"Сеть теряет связь между секторами."},
-  {icon:"👁️",name:"Полярный наблюдатель",desc:"Неизвестное существо следит из снежной стены."}
+  {icon:"🌫️",name:"Белый фантом",desc:"Аномалия скрывает целый сектор в ледяном тумане.",villainAsset:"grimoire"},
+  {icon:"🧊",name:"Крио-голем",desc:"Замёрзший промышленный автомат ожил.",villainAsset:"cryon"},
+  {icon:"🌨️",name:"Сверхметель",desc:"Сеть теряет связь между секторами.",villainAsset:"grimoire"},
+  {icon:"👁️",name:"Полярный наблюдатель",desc:"Неизвестное существо следит из снежной стены.",villainAsset:"cryon"}
  ],
  astra:[
   {icon:"🕳️",name:"Малый разлом",desc:"Пространство рвётся прямо над жилым сектором."},
-  {icon:"☄️",name:"Осколочный дождь",desc:"Орбитальный мусор пробивает защитные поля."},
-  {icon:"🧿",name:"Глаз Нексуса",desc:"Сеть сама выбирает цели и перестаёт слушаться."},
-  {icon:"👾",name:"Звёздный паразит",desc:"Чужая форма жизни закрепилась на энергетическом узле."},
+  {icon:"☄️",name:"Осколочный дождь",desc:"Орбитальный мусор пробивает защитные поля.",villainAsset:"singular"},
+  {icon:"🧿",name:"Глаз Нексуса",desc:"Сеть сама выбирает цели и перестаёт слушаться.",villainAsset:"singular"},
+  {icon:"👾",name:"Звёздный паразит",desc:"Чужая форма жизни закрепилась на энергетическом узле.",villainAsset:"onyx"},
   {icon:"⬢",name:"Пожиратель Света",desc:"Оникс вышел из разлома и гасит орбитальные маяки.",villainAsset:"onyx"}
  ]
 };
@@ -178,10 +167,10 @@ const PREMIUM_PRODUCTS=[
  {id:"shards_80",icon:"💎",title:"80 Осколков",desc:"Небольшой запас Осколков Нексуса.",type:"consumable",accent:"#71e8ff",grant:{shards:80}},
  {id:"shards_250",icon:"💎",title:"250 Осколков",desc:"Запас для нескольких редких эффектов.",type:"consumable",accent:"#47d9ff",grant:{shards:250}},
  {id:"shards_700",icon:"💠",title:"700 Осколков",desc:"Большой запас для коллекции.",type:"consumable",accent:"#b17cff",grant:{shards:700}},
- {id:"founder_pack",icon:"👑",title:"Набор Основателя",desc:"Костюм Основателя, красная паутина и значок профиля.",type:"permanent",accent:"#ff6578",entitlement:"founder"},
+ {id:"founder_pack",icon:"👑",title:"Набор Основателя",desc:"Красная паутина, 120 Осколков и значок профиля.",type:"permanent",accent:"#ff6578",entitlement:"founder"},
  {id:"umbra_character",icon:"⬢",title:"Умбра · Бездна",desc:"Коллекционная форма теневого голема с альтернативной сборкой.",type:"permanent",accent:"#d946ef",entitlement:"umbra"},
  {id:"void_web_fx",icon:"🕸️",title:"Паутина Бездны",desc:"Фиолетовый пространственный эффект паутины.",type:"permanent",accent:"#d946ef",entitlement:"voidWeb"},
- {id:"music_pack_night",icon:"🎧",title:"Ночные Частоты",desc:"Три дополнительных энергичных саундтрека.",type:"permanent",accent:"#21dff3",entitlement:"nightMusic"}
+ {id:"music_pack_night",icon:"🎧",title:"Ночные Частоты",desc:"Три дополнительных изящных саундтрека.",type:"permanent",accent:"#21dff3",entitlement:"nightMusic"}
 ];
 
 const WEB_FX=[
@@ -196,9 +185,7 @@ const WEB_FX=[
 const SHARD_STORE_ITEMS=[
  {id:"web_neon",kind:"webfx",value:"neon",icon:"⚡",name:"Неоновая паутина",desc:"Бирюзовый электрический след.",cost:100},
  {id:"web_frost",kind:"webfx",value:"frost",icon:"❄️",name:"Ледяная паутина",desc:"Холодные светлые нити.",cost:130},
- {id:"web_solar",kind:"webfx",value:"solar",icon:"☀️",name:"Солнечная паутина",desc:"Золотые энергетические нити.",cost:180},
- {id:"costume_eclipse",kind:"costume",value:"eclipse",icon:"🌑",name:"Костюм «Затмение»",desc:"Тёмно-фиолетовая форма.",cost:220},
- {id:"costume_celestial",kind:"costume",value:"celestial",icon:"🌟",name:"Звёздный Страж",desc:"Золотая орбитальная форма.",cost:280}
+ {id:"web_solar",kind:"webfx",value:"solar",icon:"☀️",name:"Солнечная паутина",desc:"Золотые энергетические нити.",cost:180}
 ];
 
 const fresh=()=>({
@@ -207,7 +194,7 @@ const fresh=()=>({
  boostUntil:0,nextChestAt:0,chestsOpened:0,
  eventWins:0,eventStreak:0,eventNextAt:Date.now()+25000,feverUntil:0,bossWins:0,
  dangerTier:1,dangerWins:0,tactics:{striker:0,network:0,hunter:0},
- selectedDistrict:0,districtsCleared:[],costumes:["crimson"],activeCostume:"crimson",
+ selectedDistrict:0,districtsCleared:[],
  selectedCharacter:"arsen",charactersUnlocked:["arsen","nika"],selectedCity:"crimson",
  levels:Object.fromEntries(Object.keys(upgrades).map(k=>[k,0])),
  achievementClaimed:[],
@@ -224,7 +211,7 @@ const fresh=()=>({
 let state=fresh();
 let ysdk=null,player=null,payments=null,sdkReady=false,paymentsReady=false,adBusy=false,gameplayStopped=true;
 let lastTick=performance.now(),lastHeavy=0,combo=1,comboClicks=0,lastClick=0;
-let toastTimer=null,cloudTimer=null,playerId="",audioCtx=null,musicTimer=null,trackTimer=null,trackIndex=0,musicStarted=false;
+let toastTimer=null,cloudTimer=null,playerId="",audioCtx=null,musicBus=null,musicTimer=null,trackTimer=null,trackIndex=0,musicStarted=false;
 let activeCityEvent=null,heroSpeechTimer=null,lastMusicContext="normal",eventAutoAccumulator=0,paymentCatalog=new Map();
 let eventClearTimer=null,tutorialActive=false,tutorialFocusEl=null;
 let platformPaused=false,gameReadySent=false,platformLanguage="ru",resolvedGameLanguage="ru",cloudLoaded=false,playableUiActivated=false;
@@ -241,7 +228,7 @@ const el={
  ultimatePanel:$("ultimatePanel"),ultimateBtn:$("ultimateBtn"),ultimateIcon:$("ultimateIcon"),ultimateName:$("ultimateName"),ultimateHint:$("ultimateHint"),ultimateFill:$("ultimateFill"),ultimatePercent:$("ultimatePercent"),
  rewardBtn:$("rewardBtn"),rewardHint:$("rewardHint"),chestBtn:$("chestBtn"),chestHint:$("chestHint"),dailyBtn:$("dailyBtn"),dailyHint:$("dailyHint"),
  riftTitle:$("riftTitle"),riftHint:$("riftHint"),riftFill:$("riftFill"),riftBtn:$("riftBtn"),bossRushBtn:$("bossRushBtn"),bossRushName:$("bossRushName"),bossRushHint:$("bossRushHint"),bossRushVisual:$("bossRushVisual"),
- shopList:$("shopList"),dailyMissionList:$("dailyMissionList"),worldSwitcher:$("worldSwitcher"),districtList:$("districtList"),mapProgress:$("mapProgress"),characterList:$("characterList"),heroCollectionStatus:$("heroCollectionStatus"),costumeList:$("costumeList"),costumeCount:$("costumeCount"),
+ shopList:$("shopList"),dailyMissionList:$("dailyMissionList"),worldSwitcher:$("worldSwitcher"),districtList:$("districtList"),mapProgress:$("mapProgress"),characterList:$("characterList"),heroCollectionStatus:$("heroCollectionStatus"),
  resourceLabel:$("resourceLabel"),passiveLabel:$("passiveLabel"),chestTitle:$("chestTitle"),shopWorldTitle:$("shopWorldTitle"),shopWorldSubtitle:$("shopWorldSubtitle"),
  mapWorldTitle:$("mapWorldTitle"),mapWorldSubtitle:$("mapWorldSubtitle"),worldContractIcon:$("worldContractIcon"),worldContractTitle:$("worldContractTitle"),worldContractDesc:$("worldContractDesc"),worldModifierChips:$("worldModifierChips"),levelList:$("levelList"),levelPathStatus:$("levelPathStatus"),tacticPoints:$("tacticPoints"),strikerInfo:$("strikerInfo"),networkInfo:$("networkInfo"),hunterInfo:$("hunterInfo"),achievementList:$("achievementList"),
  dailyDot:$("dailyDot"),achievementDot:$("achievementDot"),dailyDateText:$("dailyDateText"),sideGiftDot:$("sideGiftDot"),
@@ -278,9 +265,6 @@ function sanitize(raw){
   d.sfxEnabled=raw.sfxEnabled!==false;d.musicEnabled=raw.musicEnabled!==false;d.musicAuto=raw.musicAuto!==false;
   d.selectedTrack=Math.min(TRACKS.length-1,Math.floor(safeNum(raw.selectedTrack)));
   d.districtsCleared=Array.isArray(raw.districtsCleared)?raw.districtsCleared.filter(id=>DISTRICTS.some(x=>x.id===id)):[];
-  d.costumes=Array.isArray(raw.costumes)?raw.costumes.filter(id=>COSTUMES.some(x=>x.id===id)):["crimson"];
-  if(!d.costumes.includes("crimson"))d.costumes.unshift("crimson");
-  d.activeCostume=d.costumes.includes(raw.activeCostume)?raw.activeCostume:"crimson";
   d.charactersUnlocked=Array.isArray(raw.charactersUnlocked)?raw.charactersUnlocked.filter(id=>CHARACTERS.some(x=>x.id===id)):["arsen","nika"];
   for(const c of CHARACTERS)if(!c.premium&&d.level>=c.unlock&&!d.charactersUnlocked.includes(c.id))d.charactersUnlocked.push(c.id);
   if(!d.charactersUnlocked.includes("arsen"))d.charactersUnlocked.unshift("arsen");
@@ -354,6 +338,8 @@ function updateStage3DFromPoint(clientX,clientY){
   document.documentElement.style.setProperty('--stage-counter-x',`${(-dy*3.6).toFixed(2)}deg`);
   document.documentElement.style.setProperty('--parallax-x',`${(dx*14).toFixed(1)}px`);
   document.documentElement.style.setProperty('--parallax-y',`${(dy*8).toFixed(1)}px`);
+  document.documentElement.style.setProperty('--figure-look-x',`${(dx*5.5).toFixed(2)}deg`);
+  document.documentElement.style.setProperty('--figure-look-y',`${(-dy*3.5).toFixed(2)}deg`);
 }
 function resetStage3D(){
   document.documentElement.style.setProperty('--stage-tilt-y','0deg');
@@ -362,6 +348,8 @@ function resetStage3D(){
   document.documentElement.style.setProperty('--stage-counter-x','0deg');
   document.documentElement.style.setProperty('--parallax-x','0px');
   document.documentElement.style.setProperty('--parallax-y','0px');
+  document.documentElement.style.setProperty('--figure-look-x','0deg');
+  document.documentElement.style.setProperty('--figure-look-y','0deg');
 }
 
 
@@ -467,7 +455,7 @@ function castUltimate(){
     showHeroSpeech(`${u.name}!`);
     if(activeCityEvent.hp<=0)completeCityEvent();
   }else{
-    const reward=Math.floor(Math.max(500,economyBenchmark()*u.burst)*prestigeMultiplier());
+    const reward=Math.floor(Math.max(500,economyBenchmark()*u.burst));
     addThreats(reward);gainXp(Math.max(20,Math.floor(state.level*8)));
     floatGain(window.innerWidth/2,window.innerHeight*.42,reward,true);showHeroSpeech(`${u.name}: сеть усилена.`);
   }
@@ -494,7 +482,7 @@ function showBossVictory(e,d,first,visual){
   el.victoryBossName.textContent=`${d?.boss||"Босс"} повержен`;
   el.victoryBossText.textContent=first?`${d?.name||"Район"} освобождён. Открыта новая награда.`:"Цель снова остановлена. Патруль продолжается.";
   el.victoryReward.textContent=`+${fmt(e.reward)}`;el.victoryXp.textContent=`+${fmt(e.xp)} XP`;
-  el.victoryUnlockBox.classList.toggle("hidden",!first);el.victoryUnlock.textContent=first?(d?.costumeName||"Новый образ"):"—";
+  el.victoryUnlockBox.classList.toggle("hidden",!first);el.victoryUnlock.textContent=first?`+${d?.shards||0} Осколков`:"—";
   setTimeout(()=>openModal("victoryModal"),180);
 }
 
@@ -753,18 +741,20 @@ function renderCharacterVisual(){
   const c=selectedCharacterDef(),asset=CHIBI_ASSETS[c.id];
   if(el.heroVisual.dataset.character===c.id)return;
   el.heroVisual.dataset.character=c.id;
-  if(asset)el.heroVisual.innerHTML=`<div class="hero-model" data-model="${c.id}" style="--modelAccent:${c.accent}">
-    <span class="model-aura"></span><span class="model-shadow"></span>
-    <img class="chibi-sprite" src="${asset}" alt="${c.name} · ${c.codename}" draggable="false">
-    <span class="model-energy-ring"></span><span class="model-glint"></span>
+  if(asset)el.heroVisual.innerHTML=`<div class="hero-model living-figure" data-model="${c.id}" style="--modelAccent:${c.accent}">
+    <span class="model-aura figure-depth depth-back"></span><span class="model-shadow"></span>
+    <span class="figure-extrusion" aria-hidden="true"><img src="${asset}" alt="" draggable="false"></span>
+    <span class="figure-body-plane"><img class="chibi-sprite" src="${asset}" alt="${c.name} · ${c.codename}" draggable="false"></span>
+    <span class="model-energy-ring figure-depth depth-mid"></span><span class="model-glint figure-depth depth-front"></span>
+    <span class="figure-specular" aria-hidden="true"></span><span class="figure-eye-flash" aria-hidden="true"></span>
   </div>`;
   else el.heroVisual.innerHTML=characterSvgMarkup(c);
   if(el.topHeroAvatar&&asset)el.topHeroAvatar.src=asset;
 }
 function animateHeroLife(){
-  const model=el.heroVisual?.querySelector(".hero-model");
-  if(!model||activeCityEvent||document.hidden)return;
-  const moods=["hero-glance","hero-charge","hero-ready"],mood=moods[Math.floor(Math.random()*moods.length)];
+  const model=activeCityEvent?el.enemyVisual?.querySelector(".villain-card"):el.heroVisual?.querySelector(".hero-model");
+  if(!model||document.hidden)return;
+  const moods=activeCityEvent?["figure-observe","figure-focus","figure-prowl"]:["hero-glance","hero-charge","hero-ready"],mood=moods[Math.floor(Math.random()*moods.length)];
   model.classList.remove(...moods);void model.offsetWidth;model.classList.add(mood);
   setTimeout(()=>model.classList.remove(mood),950);
 }
@@ -779,16 +769,6 @@ function renderCharacters(){
     </button>`;
   }).join("");
   el.characterList.querySelectorAll("[data-character-choice]").forEach(b=>b.addEventListener("click",()=>selectCharacter(b.dataset.characterChoice)));
-
-  el.costumeCount.textContent=`${state.costumes.length} / ${COSTUMES.length} образов`;
-  el.costumeList.innerHTML=COSTUMES.map(c=>{
-    const owned=state.costumes.includes(c.id),selected=state.activeCostume===c.id;
-    const d=DISTRICTS.find(x=>x.id===c.district),source=c.source||(d?`Босс: ${d.name}`:"Хранилище");
-    return `<button class="costume-card ${selected?"selected":""} ${owned?"":"locked"}" style="--costume-accent:${c.accent};--costume-a:${c.a};--costume-b:${c.b}" data-costume-choice="${c.id}" ${owned&&!activeCityEvent?"":"disabled"}>
-      <span class="costume-swatch"></span><span class="costume-copy"><b>${c.name}</b><small>${owned?source:(d?`Победи босса: «${d.name}»`:"Открывается в Хранилище")}</small></span><span class="costume-state">${selected?"НАДЕТ":owned?"ВЫБРАТЬ":"🔒"}</span>
-    </button>`;
-  }).join("");
-  el.costumeList.querySelectorAll("[data-costume-choice]").forEach(b=>b.addEventListener("click",()=>equipCostume(b.dataset.costumeChoice)));
 }
 function selectCharacter(id){
   if(activeCityEvent||!state.charactersUnlocked.includes(id))return;
@@ -830,7 +810,6 @@ function applyWorldStyle(){
   const district=selectedDistrictDef(),ch=selectedCharacterDef();
   document.documentElement.dataset.cityWorld=city.id;
   document.documentElement.dataset.district=String(state.selectedDistrict);
-  el.heroButton.dataset.costume=state.activeCostume||"crimson";
   el.heroButton.dataset.character=state.selectedCharacter||"arsen";
   el.heroBadge.textContent=`${state.founderBadge?"👑":ch.icon} ${ch.name} · ${ch.codename}`;
   el.cityBadge.textContent=`${city.icon} ${city.name}`;
@@ -846,21 +825,18 @@ function renderDistricts(){
   el.mapProgress.textContent=`${list.filter(d=>cleared.has(d.id)).length} / ${list.length}`;
   el.districtList.innerHTML=list.map(d=>{
     const i=DISTRICTS.findIndex(x=>x.id===d.id),open=state.level>=d.unlock,done=cleared.has(d.id),selected=i===state.selectedDistrict;
-    const costumeOwned=state.costumes.includes(d.costume);
     const villainAsset=d.bossAsset&&VILLAIN_ASSETS[d.bossAsset];
     return `<div class="district-card ${open?"":"locked"} ${done?"cleared":""} ${selected?"selected":""}" style="--district-accent:${d.accent}">
       <div class="district-top"><div class="district-icon ${villainAsset?"has-villain":""}">${villainAsset?`<img src="${villainAsset}" alt="${d.boss}"><i>LIVE</i>`:d.icon}</div><div class="district-copy"><b>${d.name}</b><small>${open?d.desc:`Откроется на уровне ${d.unlock}`}</small><em>${open?`Босс: ${d.boss}`:""}</em></div><span class="district-state">${done?"БОСС ПОБЕЖДЁН":open?"ОТКРЫТ":"🔒"}</span></div>
       <div class="district-actions">
         <button data-select-district="${i}" ${open?"":"disabled"}>${selected?"✓ Текущий район":"Перейти"}</button>
         <button class="boss-btn" data-boss="${d.id}" ${open&&!activeCityEvent?"":"disabled"}>${done?"Повторить босса":`Босс: ${d.boss}`}</button>
-        ${costumeOwned?`<button data-costume="${d.costume}">${state.activeCostume===d.costume?"✓ Надет":"Надеть образ"}</button>`:""}
-        <span class="district-reward"><b>${fmt(d.reward)} ◆</b><br>${d.costumeName}<span class="district-power ${combatRating()>=d.power?"good":"low"}">Сила ${fmt(combatRating())} / рек. ${fmt(d.power)}</span></span>
+        <span class="district-reward"><b>${fmt(d.reward)} ◆</b><br>💎 ${d.shards} за первое освобождение<span class="district-power ${combatRating()>=d.power?"good":"low"}">Сила ${fmt(combatRating())} / рек. ${fmt(d.power)}</span></span>
       </div>
     </div>`;
   }).join("");
   el.districtList.querySelectorAll("[data-select-district]").forEach(b=>b.addEventListener("click",()=>selectDistrict(Number(b.dataset.selectDistrict))));
   el.districtList.querySelectorAll("[data-boss]").forEach(b=>b.addEventListener("click",()=>startBoss(b.dataset.boss)));
-  el.districtList.querySelectorAll("[data-costume]").forEach(b=>b.addEventListener("click",()=>equipCostume(b.dataset.costume)));
 }
 function selectDistrict(index){
   if(!DISTRICTS[index]||DISTRICTS[index].city!==state.selectedCity||state.level<DISTRICTS[index].unlock)return;
@@ -868,16 +844,12 @@ function selectDistrict(index){
   showHeroSpeech(`Переходим: ${DISTRICTS[index].name}.`);
   if(state.musicAuto&&!activeCityEvent)restartMusicForContext();
 }
-function equipCostume(id){
-  if(!state.costumes.includes(id))return;
-  state.activeCostume=id;applyWorldStyle();sfx("claim");persist();renderDistricts();renderCharacters();toast("Образ героя изменён");
-}
 function startBoss(id){
   if(activeCityEvent)return;
   const d=DISTRICTS.find(x=>x.id===id);if(!d||d.city!==state.selectedCity||state.level<d.unlock)return;
   const repeat=state.districtsCleared.includes(d.id);
   const danger=dangerDef();
-  const hp=Math.floor(d.bossHp*danger.hp*(1+state.bossWins*.025));
+  const hp=Math.floor(d.bossHp*danger.hp*(1+state.bossWins*.015));
   const reward=Math.floor(d.reward*(repeat?.32:1)*prestigeMultiplier()*danger.reward*hunterRewardMultiplier());
   const underpowered=combatRating()<d.power;
   activeCityEvent={boss:true,districtId:d.id,icon:d.bossIcon,name:`БОСС: ${d.boss}`,desc:d.bossDesc,maxHp:hp,hp,endsAt:Date.now()+Math.floor((underpowered?36000:42000)*cityTimerMult())+characterTimerBonus()*1000,reward,xp:Math.floor(d.xp*(repeat?.55:1)),enraged:false};
@@ -996,9 +968,8 @@ function completeCityEvent(){
     const first=d&&!state.districtsCleared.includes(d.id);bossFirst=first;
     if(first){
       state.districtsCleared.push(d.id);
-      if(!state.costumes.includes(d.costume))state.costumes.push(d.costume);
-      state.activeCostume=d.costume;
-      toast(`Босс повержен! +${fmt(e.reward)} · открыт образ «${d.costumeName}»`);
+      state.nexusShards+=d.shards||0;
+      toast(`Район освобождён! +${fmt(e.reward)} · +${d.shards||0} Осколков`);
     }else{
       toast(`Босс снова побеждён: +${fmt(e.reward)} и +${fmt(e.xp)} XP`);
     }
@@ -1070,10 +1041,12 @@ function enemyVisualSpec(){
 }
 function enemyVisualMarkup(spec){
   const boss=spec.tone==="boss";
-  if(spec.asset&&VILLAIN_ASSETS[spec.asset])return `<div class="villain-card asset-villain enemy-button-${spec.tone}" data-villain="${spec.asset}" data-motion="${spec.motion||"stalker"}" style="--villainGlow:${spec.glow};--villainAccent:${spec.accent};">
-    <span class="villain-portal"></span><span class="villain-shadow"></span>
-    <img class="villain-sprite" src="${VILLAIN_ASSETS[spec.asset]}" alt="${spec.name}" draggable="false">
-    <span class="villain-core-flare"></span><span class="villain-scan"></span>
+  if(spec.asset&&VILLAIN_ASSETS[spec.asset])return `<div class="villain-card asset-villain living-figure enemy-button-${spec.tone}" data-villain="${spec.asset}" data-motion="${spec.motion||"stalker"}" style="--villainGlow:${spec.glow};--villainAccent:${spec.accent};">
+    <span class="villain-portal figure-depth depth-back"></span><span class="villain-shadow"></span>
+    <span class="figure-extrusion villain-extrusion" aria-hidden="true"><img src="${VILLAIN_ASSETS[spec.asset]}" alt="" draggable="false"></span>
+    <span class="figure-body-plane"><img class="villain-sprite" src="${VILLAIN_ASSETS[spec.asset]}" alt="${spec.name}" draggable="false"></span>
+    <span class="villain-core-flare figure-depth depth-mid"></span><span class="villain-scan figure-depth depth-front"></span>
+    <span class="figure-specular" aria-hidden="true"></span><span class="figure-eye-flash" aria-hidden="true"></span>
   </div>`;
   const deco = spec.head==="wolf" ? `<path d="M132 95l-18-18-7 28" class="enemy-crown"/><path d="M227 95l18-18 7 28" class="enemy-crown"/>` :
     spec.head==="magnet" ? `<path d="M125 108c0-24 17-41 39-41h9v17h-7c-11 0-20 9-20 20v20h-21zm110 0c0-24-17-41-39-41h-9v17h7c11 0 20 9 20 20v20h21z" class="enemy-crown"/>` :
@@ -1127,6 +1100,9 @@ function renderTargetVisual(){
     el.enemyVisual.classList.add("hidden");
     el.targetPulse.classList.add("hidden");
     el.enemyVisual.innerHTML="";
+    el.enemyVisual.dataset.key="";
+    el.heroStage?.classList.remove("enemy-present");
+    el.heroVisual?.removeAttribute("aria-hidden");
     el.heroButton.setAttribute("aria-label","Запустить энергетическую сеть");
     return;
   }
@@ -1134,6 +1110,8 @@ function renderTargetVisual(){
   el.heroButton.dataset.villainTone=spec.tone;
   el.enemyVisual.classList.remove("hidden");
   el.targetPulse.classList.remove("hidden");
+  el.heroStage?.classList.add("enemy-present");
+  el.heroVisual?.setAttribute("aria-hidden","true");
   if(el.enemyVisual.dataset.key!==spec.name){
     el.enemyVisual.dataset.key=spec.name;
     el.enemyVisual.innerHTML=enemyVisualMarkup(spec);
@@ -1389,8 +1367,8 @@ function applyPermanentEntitlement(productID){
   addEntitlement(p.entitlement||productID);
   if(productID==="founder_pack"){
     state.founderBadge=true;
-    if(!state.costumes.includes("founder"))state.costumes.push("founder");
     if(!state.ownedWebFx.includes("founder"))state.ownedWebFx.push("founder");
+    if(!hasEntitlement("founderShardGrant")){state.nexusShards+=120;addEntitlement("founderShardGrant")}
   }else if(productID==="umbra_character"){
     if(!state.charactersUnlocked.includes("umbra"))state.charactersUnlocked.push("umbra");
   }else if(productID==="void_web_fx"){
@@ -1407,7 +1385,7 @@ async function commitPurchaseState(){
   saveLocal();
   if(player){
     state.savedAt=Date.now();
-    await player.setData({crimsonWebV19:snapshot()},true);
+    await player.setData({crimsonWebV20:snapshot()},true);
   }
 }
 async function handleConsumablePurchase(purchase){
@@ -1525,9 +1503,6 @@ function buyShardItem(id){
   if(item.kind==="webfx"){
     if(!state.ownedWebFx.includes(item.value))state.ownedWebFx.push(item.value);
     state.activeWebFx=item.value;
-  }else if(item.kind==="costume"){
-    if(!state.costumes.includes(item.value))state.costumes.push(item.value);
-    state.activeCostume=item.value;
   }
   sfx("claim");persist(true);renderAll();toast(`Получено: ${item.name}`);
 }
@@ -1578,18 +1553,18 @@ function levelUp(){
 }
 function claimMission(id){
   const m=state.dailyMissions.find(x=>x.id===id);if(!m||state.dailyClaimed.includes(id)||missionProgress(m)<m.target)return;
-  state.dailyClaimed.push(id);addThreats(m.reward);gainXp(Math.floor(m.reward/8));sfx("claim");toast(`Миссия дня выполнена: +${fmt(m.reward)} угроз`);
+  state.dailyClaimed.push(id);addThreats(m.reward);gainXp(45+state.level*12);sfx("claim");toast(`Миссия дня выполнена: +${fmt(m.reward)} угроз`);
   persist(true);renderAll();
 }
 function claimAchievement(id){
   const a=achievementDefs.find(x=>x.id===id);if(!a||state.achievementClaimed.includes(id)||!a.check(state))return;
-  state.achievementClaimed.push(id);addThreats(a.reward);gainXp(Math.floor(a.reward/12));sfx("claim");toast(`Трофей получен: +${fmt(a.reward)}`);
+  state.achievementClaimed.push(id);addThreats(a.reward);gainXp(55+state.level*15);sfx("claim");toast(`Трофей получен: +${fmt(a.reward)}`);
   persist(true);renderAll();
 }
 function openChest(){
   if(Date.now()<state.nextChestAt)return;
   const base=Math.max(300,basePassive()*50,baseClick()*70);const mult=[1,1.5,2,3][Math.floor(Math.random()*4)],reward=Math.floor(base*mult);
-  addThreats(reward);gainXp(Math.max(20,Math.floor(reward/20)));state.chestsOpened++;state.nextChestAt=Date.now()+CHEST_MS;
+  addThreats(reward);gainXp(35+state.level*5);state.chestsOpened++;state.nextChestAt=Date.now()+CHEST_MS;
   sfx("chest");toast(`Тайник дозора: +${fmt(reward)} угроз`);tutorialCheck("chest");persist();renderAll();
 }
 function claimDailyReward(){
@@ -1599,7 +1574,7 @@ function claimDailyReward(){
     const diff=now-state.lastDailyAt;
     if(diff>2*DAY_MS)state.dailyStreak=0;else state.dailyStreak=Math.min(6,state.dailyStreak+1);
   }else state.dailyStreak=0;
-  const reward=dailyRewardValue(state.dailyStreak);addThreats(reward);gainXp(Math.floor(reward/10));state.lastDailyAt=now;
+  const reward=dailyRewardValue(state.dailyStreak);addThreats(reward);gainXp(60+state.dailyStreak*25+state.level*8);state.lastDailyAt=now;
   sfx("claim");toast(`Трофей дня: +${fmt(reward)} угроз`);persist(true);renderAll();
 }
 function prestige(){
@@ -1684,6 +1659,23 @@ function tone(freq,dur=.08,type="sine",gainValue=.035,when=0){
   g.gain.setValueAtTime(gainValue,a.currentTime+when);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+when+dur);
   o.connect(g);g.connect(a.destination);o.start(a.currentTime+when);o.stop(a.currentTime+when+dur);
 }
+function ensureMusicBus(){
+  const a=ensureAudio();if(!a)return null;if(musicBus)return musicBus;
+  const input=a.createGain(),warmth=a.createBiquadFilter(),compressor=a.createDynamicsCompressor(),master=a.createGain(),delay=a.createDelay(.8),feedback=a.createGain(),wet=a.createGain();
+  input.gain.value=.82;warmth.type="lowpass";warmth.frequency.value=4200;warmth.Q.value=.32;
+  compressor.threshold.value=-22;compressor.knee.value=18;compressor.ratio.value=3;compressor.attack.value=.025;compressor.release.value=.32;
+  master.gain.value=.42;delay.delayTime.value=.27;feedback.gain.value=.18;wet.gain.value=.19;
+  input.connect(warmth);warmth.connect(compressor);compressor.connect(master);input.connect(delay);delay.connect(wet);wet.connect(master);delay.connect(feedback);feedback.connect(delay);master.connect(a.destination);
+  musicBus={input,master};return musicBus;
+}
+function musicTone(freq,dur=.3,type="sine",gainValue=.014,when=0,pan=0){
+  const a=ensureAudio(),bus=ensureMusicBus();if(!a||!bus)return;
+  const start=a.currentTime+when,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);
+  g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(Math.max(.0002,gainValue),start+Math.min(.08,dur*.22));g.gain.exponentialRampToValueAtTime(.0001,start+dur);
+  o.connect(g);
+  if(a.createStereoPanner){const p=a.createStereoPanner();p.pan.value=Math.max(-1,Math.min(1,pan));g.connect(p);p.connect(bus.input)}else g.connect(bus.input);
+  o.start(start);o.stop(start+dur+.03);
+}
 function noiseBurst(dur=.045,gainValue=.018){
   const a=ensureAudio();if(!a)return;
   const len=Math.max(1,Math.floor(a.sampleRate*dur)),buf=a.createBuffer(1,len,a.sampleRate),data=buf.getChannelData(0);
@@ -1749,14 +1741,18 @@ function playMusicStep(){
   if(!state.musicEnabled||document.hidden||gameplayStopped||adBusy)return;
   const ti=contextTrackIndex(),tr=TRACKS[ti],step=playMusicStep.step++%tr.pattern.length;
   const lead=noteFrequency(tr.root,tr.pattern[step]),bass=noteFrequency(tr.root/2,tr.bass[step%tr.bass.length]);
-  const boost=tr.energy>=4?1.25:1;
-  tone(lead,.12+(tr.energy<=1?.08:0),"triangle",.0058*boost);
-  if(step%2===0)tone(lead*2,.07,"sine",.0028*boost,.018);
-  if(step%2===0)tone(bass,.18,"sine",.0065*boost);
-  if(step%4===0)kick(.012*boost);
-  if(step%4===2)snare(.0065*boost);
-  hat(.0035*boost);
-  if(tr.energy>=3&&step%2===1)hat(.0025*boost);
+  const beat=tr.tempo/1000,boost=tr.energy>=4?1.18:1;
+  musicTone(lead,.28+(tr.energy<=1?.16:0),step%3===0?"sine":"triangle",.014*boost,0,(step%2?1:-1)*.24);
+  if(step%2===0)musicTone(lead*2,.17,"sine",.0055*boost,.025,(step%4===0?-.42:.42));
+  if(step%2===0)musicTone(bass,beat*1.75,"sine",.015*boost,0,-.08);
+  if(step%4===0){
+    const root=noteFrequency(tr.root/2,tr.bass[step%tr.bass.length]);
+    musicTone(root,beat*3.7,"sine",.0085*boost,0,-.28);
+    musicTone(root*Math.pow(2,7/12),beat*3.5,"triangle",.0055*boost,.035,.18);
+    musicTone(root*Math.pow(2,11/12),beat*3.3,"sine",.0045*boost,.07,.36);
+  }
+  if(tr.energy>=3&&step%4===2)musicTone(bass*2,.12,"triangle",.006*boost,0,.12);
+  if(tr.energy>=4&&step%4===0)kick(.0065*boost);
 }
 playMusicStep.step=0;
 function startMusic(){
@@ -1792,11 +1788,11 @@ function toast(text){clearTimeout(toastTimer);el.toast.textContent=text;el.toast
 function snapshot(){state.savedAt=Date.now();return {...state,levels:{...state.levels},achievementClaimed:[...state.achievementClaimed],dailyMissions:state.dailyMissions.map(x=>({...x})),dailyClaimed:[...state.dailyClaimed],dailyBase:{...(state.dailyBase||{})}}}
 function saveLocal(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(snapshot()))}catch(_){}}
 function loadLocal(){try{const raw=localStorage.getItem(STORAGE_KEY)||LEGACY_STORAGE_KEYS.map(k=>localStorage.getItem(k)).find(Boolean);return raw?sanitize(JSON.parse(raw)):null}catch(_){return null}}
-async function saveCloud(flush=false){if(!player)return;try{await player.setData({crimsonWebV19:snapshot()},!!flush)}catch(e){console.warn("cloud save",e)}}
+async function saveCloud(flush=false){if(!player)return;try{await player.setData({crimsonWebV20:snapshot()},!!flush)}catch(e){console.warn("cloud save",e)}}
 function scheduleCloud(){if(!player||cloudTimer)return;cloudTimer=setTimeout(()=>{cloudTimer=null;saveCloud(false)},7000)}
 function persist(force=false){saveLocal();if(force){clearTimeout(cloudTimer);cloudTimer=null;saveCloud(true)}else scheduleCloud()}
 function applyOffline(s){
-  const secs=Math.min(Math.max((Date.now()-s.savedAt)/1000,0),4*3600);if(secs<5)return s;
+  const secs=Math.min(Math.max((Date.now()-s.savedAt)/1000,0),6*3600);if(secs<5)return s;
   const boostedSecs=s.boostUntil>s.savedAt?Math.min(secs,Math.max(0,(s.boostUntil-s.savedAt)/1000)):0,normal=secs-boostedSecs;
   const base=basePassive(s)*levelMultiplier(s)*prestigeMultiplier(s)*characterAllMult(s)*characterPassiveMult(s)*cityPassiveMult(s),earned=base*normal+base*2*boostedSecs;
   if(earned>0){s.threats+=earned;s.lifetime+=earned;s._offline=earned}s.savedAt=Date.now();return s;
@@ -1841,8 +1837,8 @@ async function initSDK(){
 
     if(player){
       try{
-        const data=await player.getData(["crimsonWebV19","crimsonWebV18_1","crimsonWebV18"]);
-        const cloudRaw=data?.crimsonWebV19||data?.crimsonWebV18_1||data?.crimsonWebV18;
+        const data=await player.getData(["crimsonWebV20","crimsonWebV19","crimsonWebV18_1","crimsonWebV18"]);
+        const cloudRaw=data?.crimsonWebV20||data?.crimsonWebV19||data?.crimsonWebV18_1||data?.crimsonWebV18;
         if(cloudRaw){
           const cloud=sanitize(cloudRaw);
           if(cloud.savedAt>state.savedAt){
@@ -1930,7 +1926,7 @@ function bind(){
   document.querySelectorAll(".modal").forEach(m=>m.addEventListener("pointerdown",e=>{if(e.target===m)closeModal(m.id)}));
   document.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{setTheme(b.dataset.themeChoice);closeModal("themeModal")}));
   el.claimDailyBtn.addEventListener("click",claimDailyReward);el.shareInviteBtn.addEventListener("click",shareInvite);el.authBtn.addEventListener("click",authorize);
-  el.resetBtn.addEventListener("click",async()=>{if(!confirm("Удалить весь прогресс?"))return;state=fresh();initIncomingRef();document.documentElement.dataset.theme=state.theme;syncBrowserThemeColor(state.theme);ensureDaily();saveLocal();if(player)try{await player.setData({crimsonWebV19:state},true)}catch(_){}closeModal("infoModal");renderAll();toast("Прогресс сброшен")});
+  el.resetBtn.addEventListener("click",async()=>{if(!confirm("Удалить весь прогресс?"))return;state=fresh();initIncomingRef();document.documentElement.dataset.theme=state.theme;syncBrowserThemeColor(state.theme);ensureDaily();saveLocal();if(player)try{await player.setData({crimsonWebV20:state},true)}catch(_){}closeModal("infoModal");renderAll();toast("Прогресс сброшен")});
   window.addEventListener("contextmenu",e=>e.preventDefault());
   document.addEventListener("visibilitychange",()=>{
     if(document.hidden){stopGameplay();pauseAudio();saveLocal();saveCloud(true)}
