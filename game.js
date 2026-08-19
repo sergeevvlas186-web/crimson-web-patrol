@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 
-const BUILD_VERSION="0.20.2";
+const BUILD_VERSION="0.20.3";
 const STORAGE_KEY="crimson_web_patrol_v20";
 const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v19","crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
 const SUPPORTED_GAME_LANGS=["ru"];
@@ -72,7 +72,7 @@ const DANGER_TIERS=[
 
 const HERO_LINES=["Город ещё не спит.","Вижу движение на крышах.","Сеть чувствует угрозу.","Ещё один квартал под защитой.","Нельзя терять темп.","Слышишь сирены? Я уже там.","Сегодня город будет тише.","Держим линию.","Есть контакт. Работаем.","Крыши — лучший наблюдательный пункт."];
 
-const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=20.0.2",nika:"assets/chibi/nika.webp?v=20.0.2",rey:"assets/chibi/rey.webp?v=20.0.2",mira:"assets/chibi/mira.webp?v=20.0.2",kai:"assets/chibi/kai.webp?v=20.0.2",umbra:"assets/chibi/umbra.webp?v=20.0.2"};
+const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=20.0.3",nika:"assets/chibi/nika.webp?v=20.0.3",rey:"assets/chibi/rey.webp?v=20.0.3",mira:"assets/chibi/mira.webp?v=20.0.3",kai:"assets/chibi/kai.webp?v=20.0.3",umbra:"assets/chibi/umbra.webp?v=20.0.3"};
 const VILLAIN_ASSETS={morana:"assets/villains/morana.webp",volt:"assets/villains/volt.webp",magnetron:"assets/villains/magnetron.webp",burrower:"assets/villains/burrower.webp",grimoire:"assets/villains/grimoire.webp",cryon:"assets/villains/cryon.webp",onyx:"assets/villains/onyx.webp",singular:"assets/villains/singular.webp"};
 const VILLAIN_PROFILES={
  morana:{asset:"morana",name:"Морана · Алый Мираж",skin:"#9d1835",dark:"#260913",glow:"#ff5aa9",stroke:"#ffd2eb",accent:"#ff3f83",motion:"stalker"},
