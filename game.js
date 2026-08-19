@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 
-const BUILD_VERSION="0.20.0";
+const BUILD_VERSION="0.20.1";
 const STORAGE_KEY="crimson_web_patrol_v20";
 const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v19","crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
 const SUPPORTED_GAME_LANGS=["ru"];
