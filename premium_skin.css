@@ -23,7 +23,7 @@ body{background:radial-gradient(circle at 50% -10%,rgba(236,26,68,.35),transpare
 .side-actions{position:absolute;top:150px;z-index:12;display:grid;gap:8px}.side-left{left:8px}.side-right{right:8px}.side-action{width:62px;height:70px;border-radius:15px;border:2px solid rgba(155,43,67,.55);background:linear-gradient(180deg,#29202b,#0f0d14);color:#fff;display:grid;place-items:center;padding:4px;cursor:pointer;position:relative;box-shadow:0 7px 18px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08)}.side-action span{font-size:24px;line-height:1}.side-action b{font-size:7px}.side-action i{position:absolute;right:-3px;top:-4px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#ed304d;color:#fff;font-style:normal;font-size:11px;font-weight:950;border:2px solid #6e1124}
 .premium-event-card{border:2px solid rgba(255,59,96,.55);background:linear-gradient(135deg,rgba(91,10,29,.86),rgba(17,11,18,.94));box-shadow:0 0 26px rgba(255,36,80,.12);margin:0 -28px 5px}.premium-event-card .event-icon{border:1px solid rgba(255,80,111,.4)}
 .level-card,.mini-stats,.action-grid{margin-left:-28px;margin-right:-28px}.mini-stats{grid-template-columns:repeat(5,1fr)}.mini-stats>div{border:1px solid rgba(255,74,109,.14);background:linear-gradient(180deg,#201923,#100e15)}.action-card{border:2px solid rgba(151,47,67,.36);background:linear-gradient(180deg,#251d27,#0e0c12)}
-.panel{background:linear-gradient(180deg,rgba(24,21,30,.98),rgba(10,9,14,.99));overflow:hidden}.tabs{display:none!important}.tab-content{padding:10px}.tab-content.active{animation:panelIn .18s ease-out}.panel-head,.daily-header,.vault-section-head{padding:7px 9px;border-radius:12px;background:linear-gradient(180deg,#27212c,#141118);border:1px solid rgba(255,72,106,.16)}.shop-item,.mission-item,.achievement-item,.level-path-item,.district-card,.city-card,.character-card,.costume-card,.vault-card,.music-track{border:2px solid rgba(111,41,61,.45)!important;background:linear-gradient(180deg,#241f29,#111016)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 5px 12px rgba(0,0,0,.18)}.shop-item:hover,.mission-item:hover,.achievement-item:hover,.level-path-item:hover,.district-card:hover,.city-card:hover,.character-card:hover,.costume-card:hover{border-color:rgba(244,53,91,.5)!important}.item-icon,.district-icon,.world-overview-icon,.level-icon{background:radial-gradient(circle at 35% 25%,rgba(255,100,128,.17),rgba(233,39,80,.08));border:1px solid rgba(255,75,111,.25)}.level-up-btn,.claim-btn.ready,.primary-btn,.prestige-box button{background:linear-gradient(180deg,#9cf033,#5da916);border:2px solid #b7ff4c;color:#10170b;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 14px rgba(127,224,40,.16);font-weight:950}.vault-tab .primary-btn,.vault-buy-button{background:linear-gradient(180deg,#9cf033,#5da916)!important;color:#0b1605!important}.buy-mode,.daily-refresh{border-color:rgba(247,58,96,.28);background:rgba(238,36,78,.09);color:#ff738f}
+.panel{background:linear-gradient(180deg,rgba(24,21,30,.98),rgba(10,9,14,.99));overflow:hidden}.tabs{display:none!important}.tab-content{padding:10px}.tab-content.active{animation:panelIn .18s ease-out}.panel-head,.daily-header,.vault-section-head{padding:7px 9px;border-radius:12px;background:linear-gradient(180deg,#27212c,#141118);border:1px solid rgba(255,72,106,.16)}.shop-item,.mission-item,.achievement-item,.level-path-item,.district-card,.city-card,.character-card,.vault-card,.music-track{border:2px solid rgba(111,41,61,.45)!important;background:linear-gradient(180deg,#241f29,#111016)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 5px 12px rgba(0,0,0,.18)}.shop-item:hover,.mission-item:hover,.achievement-item:hover,.level-path-item:hover,.district-card:hover,.city-card:hover,.character-card:hover{border-color:rgba(244,53,91,.5)!important}.item-icon,.district-icon,.world-overview-icon,.level-icon{background:radial-gradient(circle at 35% 25%,rgba(255,100,128,.17),rgba(233,39,80,.08));border:1px solid rgba(255,75,111,.25)}.level-up-btn,.claim-btn.ready,.primary-btn,.prestige-box button{background:linear-gradient(180deg,#9cf033,#5da916);border:2px solid #b7ff4c;color:#10170b;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 14px rgba(127,224,40,.16);font-weight:950}.vault-tab .primary-btn,.vault-buy-button{background:linear-gradient(180deg,#9cf033,#5da916)!important;color:#0b1605!important}.buy-mode,.daily-refresh{border-color:rgba(247,58,96,.28);background:rgba(238,36,78,.09);color:#ff738f}
 .bottom-dock{position:absolute;left:10px;right:10px;bottom:7px;z-index:50;height:76px;border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:6px;background:linear-gradient(180deg,rgba(34,28,38,.99),rgba(10,9,14,.995));box-shadow:0 -10px 36px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.07)}.dock-btn{min-width:0;border:1px solid rgba(255,73,109,.22);border-radius:15px;background:linear-gradient(180deg,#211b25,#0f0d13);color:#eee3e8;display:grid;place-items:center;align-content:center;gap:2px;cursor:pointer}.dock-btn span{font-size:25px}.dock-btn b{font-size:9px}.dock-btn.active{background:radial-gradient(circle at 50% 20%,rgba(255,118,135,.27),transparent 45%),linear-gradient(180deg,#b32a45,#5d0e21);border-color:#ff728a;box-shadow:0 0 15px rgba(255,49,88,.16),inset 0 1px 0 rgba(255,255,255,.18)}.dock-btn.donate span{filter:drop-shadow(0 0 7px rgba(255,45,172,.65))}
 .character-avatar{background:none!important}.character-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 4px rgba(0,0,0,.25))}.character-list{grid-template-columns:repeat(3,1fr)}.character-card{min-height:170px}.character-avatar{width:88px;height:100px}.character-card b{font-size:10px}.character-card.selected{border-color:var(--char-accent)!important;box-shadow:0 0 17px color-mix(in srgb,var(--char-accent) 22%,transparent)}
 .modal{z-index:100}.modal-card{border:2px solid rgba(182,44,74,.66);background:linear-gradient(180deg,#251e29,#0e0c12)}.toast{z-index:120}
@@ -412,11 +412,11 @@ html[data-theme="light"] .city-back{opacity:.55}.fog{background:var(--t-accent)!
 .panel-head,.daily-header,.vault-section-head,.level-card,.prestige-box,.tactics-panel,.world-overview,.world-contract,.vault-hero,.vault-status-row,.rift-card,.boss-rush-card,.premium-event-card{
   background:linear-gradient(180deg,var(--t-card-a),var(--t-card-b))!important;border-color:var(--t-line)!important;color:var(--t-text)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,var(--t-text) 6%,transparent),0 7px 18px var(--t-shadow)!important
 }
-.shop-item,.mission-item,.achievement-item,.level-path-item,.district-card,.city-card,.character-card,.costume-card,.vault-card,.music-track,.tactic-card,.daily-day{
+.shop-item,.mission-item,.achievement-item,.level-path-item,.district-card,.city-card,.character-card,.vault-card,.music-track,.tactic-card,.daily-day{
   background:linear-gradient(180deg,var(--t-card-a),var(--t-card-b))!important;border-color:var(--t-line)!important;color:var(--t-text)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,var(--t-text) 5%,transparent),0 5px 12px color-mix(in srgb,var(--t-shadow) 75%,transparent)!important
 }
-.shop-item:hover,.mission-item:hover,.achievement-item:hover,.level-path-item:hover,.district-card:hover,.city-card:hover,.character-card:hover,.costume-card:hover,.music-track:hover,.tactic-card:hover{background:linear-gradient(180deg,var(--t-card-hover),var(--t-card-b))!important;border-color:var(--t-line-strong)!important}
-.shop-item small,.mission-item p,.achievement-item p,.level-path-item small,.district-card small,.city-card small,.character-card small,.costume-card small,.vault-card small,.music-track small,.panel-head small,.daily-header small,.vault-section-head small,.rift-copy small,.boss-rush-card small{color:var(--t-muted)!important}
+.shop-item:hover,.mission-item:hover,.achievement-item:hover,.level-path-item:hover,.district-card:hover,.city-card:hover,.character-card:hover,.music-track:hover,.tactic-card:hover{background:linear-gradient(180deg,var(--t-card-hover),var(--t-card-b))!important;border-color:var(--t-line-strong)!important}
+.shop-item small,.mission-item p,.achievement-item p,.level-path-item small,.district-card small,.city-card small,.character-card small,.vault-card small,.music-track small,.panel-head small,.daily-header small,.vault-section-head small,.rift-copy small,.boss-rush-card small{color:var(--t-muted)!important}
 .item-price,.reward-label,.world-eyebrow,.daily-refresh,.buy-mode,.rift-copy span,.boss-rush-card span{color:var(--t-accent-2)!important}
 .item-icon,.district-icon,.world-overview-icon,.level-icon{background:radial-gradient(circle at 35% 25%,color-mix(in srgb,var(--t-accent-2) 18%,transparent),color-mix(in srgb,var(--t-accent) 8%,transparent))!important;border-color:var(--t-line)!important}
 .status-pill{background:color-mix(in srgb,var(--t-card-a) 88%,transparent)!important;border-color:var(--t-line)!important;color:var(--t-text)}
@@ -476,7 +476,7 @@ html[data-theme="light"] .toast{background:#ffffff!important;color:#172438!impor
 
 
 /* =========================================================
-   V19 — LIVING HEROES / SIGNATURE VILLAINS / MOBILE FLOW
+   V20 BASE — LIVING HEROES / SIGNATURE VILLAINS / MOBILE FLOW
    ========================================================= */
 :root{--stage-counter-x:0deg;--stage-counter-y:0deg}
 
@@ -493,6 +493,7 @@ html[data-theme="light"] .toast{background:#ffffff!important;color:#172438!impor
 .hero-model[data-model="rey"]{animation:heroAliveRey 3.6s ease-in-out infinite}
 .hero-model[data-model="mira"]{animation:heroAliveMira 3s ease-in-out infinite}
 .hero-model[data-model="kai"]{animation:heroAliveKai 3.8s ease-in-out infinite}
+.hero-model[data-model="umbra"]{animation:heroAliveKai 4.1s ease-in-out infinite}
 .hero-model.hero-glance{animation:heroRigGlance .9s ease-out}.hero-model.hero-charge{animation:heroRigCharge .9s ease-out}.hero-model.hero-ready{animation:heroRigReady .9s ease-out}
 .hero-button.pressed .hero-model,.hero-button.shooting .hero-model{animation:heroModelTap .32s ease-out!important}
 
@@ -579,4 +580,91 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
 }
 @media(prefers-reduced-motion:reduce){
   .hero-model .chibi-sprite,.model-aura,.model-shadow,.model-energy-ring,.model-glint,.villain-sprite,.villain-portal,.villain-core-flare,.villain-scan,.boss-rush-visual img,.district-icon.has-villain img,.claim-btn.ready{animation:none!important}
+}
+
+/* ============================================================
+   V20 — LIVING 3D FIGURES / TRUE BOSS SWAP / ALIGNED MOBILE UI
+   ============================================================ */
+:root{
+  --figure-look-x:0deg;
+  --figure-look-y:0deg;
+  --ui-icon-sm:28px;
+  --ui-icon-md:40px;
+  --ui-icon-lg:50px;
+}
+
+.living-figure,.figure-body-plane,.figure-depth,.figure-extrusion{transform-style:preserve-3d}
+.figure-body-plane,.figure-extrusion,.figure-specular,.figure-eye-flash{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.figure-body-plane{z-index:4;transform:translateZ(30px) rotateY(var(--figure-look-x)) rotateX(var(--figure-look-y));transition:transform .14s ease-out}
+.figure-extrusion{z-index:1;opacity:.2;filter:brightness(.18) saturate(1.4) blur(.7px);transform:translate3d(5px,6px,-18px) scale(1.008)}
+.figure-extrusion img{width:90%;height:90%;object-fit:contain}
+.villain-extrusion img{width:100%;height:100%}
+.figure-specular{z-index:7;inset:8% 14% 12%;opacity:.28;mix-blend-mode:screen;background:linear-gradient(112deg,transparent 30%,rgba(255,255,255,.36) 45%,transparent 60%);clip-path:ellipse(36% 46% at 50% 48%);animation:figureSpecular 5.8s ease-in-out infinite}
+.figure-eye-flash{z-index:8;inset:28% 31% 52%;opacity:0;background:radial-gradient(ellipse,rgba(255,255,255,.95),color-mix(in srgb,var(--modelAccent,var(--villainGlow,#fff)) 70%,transparent) 30%,transparent 72%);filter:blur(2px);animation:figureBlink 5.2s steps(1,end) infinite}
+.depth-back{transform:translateZ(-34px)!important}.depth-mid{transform:translateZ(12px)!important}.depth-front{transform:translateZ(48px)!important}
+.hero-model.hero-glance,.villain-card.figure-observe{animation:figureObserve .95s ease-out!important}
+.hero-model.hero-charge,.villain-card.figure-focus{animation:figureFocus .95s ease-out!important}
+.hero-model.hero-ready,.villain-card.figure-prowl{animation:figureProwl .95s ease-out!important}
+.asset-villain[data-motion="orbit"] .villain-sprite{animation:villainOrbit 4.4s ease-in-out infinite}
+.asset-villain[data-motion="specter"] .villain-sprite{animation:villainSpecter 3.8s ease-in-out infinite}
+
+@keyframes figureSpecular{0%,18%,100%{transform:translateX(-22%) translateZ(50px);opacity:.08}50%{transform:translateX(24%) translateZ(50px);opacity:.35}}
+@keyframes figureBlink{0%,44%,47%,100%{opacity:0}45%,46%{opacity:.78}}
+@keyframes figureObserve{0%,100%{transform:rotateY(0) translateZ(0)}42%{transform:rotateY(-7deg) translateZ(16px)}68%{transform:rotateY(5deg) translateZ(9px)}}
+@keyframes figureFocus{0%,100%{transform:translateZ(0) scale(1)}45%{transform:translateZ(22px) scale(1.035)}}
+@keyframes figureProwl{0%,100%{transform:translateX(0) rotateZ(0)}35%{transform:translateX(-7px) rotateZ(-1.4deg)}68%{transform:translateX(6px) rotateZ(1deg)}}
+@keyframes villainOrbit{0%,100%{transform:translate3d(0,2px,28px) rotateY(-3deg) rotateZ(-.4deg)}50%{transform:translate3d(0,-7px,42px) rotateY(4deg) rotateZ(.7deg)}}
+@keyframes villainSpecter{0%,100%{transform:translate3d(-2px,3px,26px) rotateY(-4deg);filter:drop-shadow(0 20px 17px rgba(0,0,0,.46)) drop-shadow(0 0 13px color-mix(in srgb,var(--villainGlow) 28%,transparent))}50%{transform:translate3d(3px,-8px,44px) rotateY(5deg);filter:drop-shadow(0 24px 21px rgba(0,0,0,.4)) drop-shadow(0 0 23px color-mix(in srgb,var(--villainGlow) 48%,transparent))}}
+
+/* The enemy is the scene character during every alert: the hero is not left behind it. */
+.hero-visual,.enemy-visual{transition:opacity .24s ease,visibility .24s ease,transform .3s cubic-bezier(.2,.8,.2,1)}
+.hero-button.threat-mode .hero-visual{opacity:0!important;visibility:hidden!important;transform:scale(.72) translate3d(0,16px,-90px)!important}
+.hero-button.threat-mode .enemy-visual{opacity:1!important;visibility:visible!important;inset:-4% -8%!important;transform:translateZ(42px)!important}
+.hero-button.threat-mode{width:clamp(260px,31vw,365px)!important;height:clamp(300px,36vw,420px)!important;background:transparent!important;box-shadow:none!important}
+.hero-button.threat-mode::after{inset:7% 2% 6%;border-radius:44%}
+.enemy-present .hero-spotlight{filter:hue-rotate(24deg) saturate(1.18)}
+.enemy-present .hero-floor{opacity:.76;transform:translateX(var(--parallax-x)) translateY(var(--parallax-y)) translateZ(-30px) scale(1.08)}
+
+/* One icon scale and one alignment grid across cards and navigation. */
+.bottom-dock{grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:stretch!important;gap:7px!important;height:80px!important;padding:7px!important}
+.dock-btn{min-width:0!important;min-height:0!important;grid-template-rows:38px auto!important;justify-items:center!important;align-content:center!important;text-align:center!important;padding:3px 2px!important;line-height:1!important}
+.dock-btn span{width:38px;height:38px;display:grid;place-items:center;font-size:30px!important;line-height:1!important}
+.dock-btn b{display:block;width:100%;font-size:9px!important;line-height:1.05!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.item-icon{width:48px!important;height:48px!important;font-size:24px!important;flex:0 0 48px}
+.district-icon:not(.has-villain),.level-icon{width:48px!important;height:48px!important;font-size:24px!important;flex:0 0 48px}
+.district-icon.has-villain{width:78px!important;height:84px!important;flex:0 0 78px}
+.mission-icon,.achievement-icon,.action-icon,.track-icon,.shard-item-icon{font-size:22px!important;min-width:38px;min-height:38px;display:grid;place-items:center}
+.character-avatar{width:94px!important;height:106px!important}
+.world-chip>span{width:35px!important;height:35px!important;font-size:20px!important}
+.side-action span{font-size:25px!important}
+
+.tab-content{padding:12px!important;min-width:0!important;align-content:start!important}
+.tab-content.active{display:grid!important;grid-template-rows:auto minmax(0,1fr) auto!important;gap:10px!important}
+.panel-head,.daily-header,.vault-section-head,.world-contract-compact{width:100%;min-width:0;margin-inline:0!important;box-sizing:border-box}
+.scroll-list,.character-list,.district-list,.world-switcher,.shard-store-list,.web-fx-picker{width:100%;min-width:0;box-sizing:border-box}
+.district-top{align-items:center!important}.district-actions{align-items:center!important}.district-reward{text-align:right}
+
+@media(max-width:900px){
+  .hero-button.threat-mode{width:250px!important;height:300px!important}
+  .bottom-dock{height:76px!important}
+  .dock-btn{grid-template-rows:35px auto!important}
+  .dock-btn span{width:35px;height:35px;font-size:28px!important}
+  .item-icon,.district-icon:not(.has-villain),.level-icon{width:44px!important;height:44px!important;font-size:22px!important;flex-basis:44px}
+  .district-icon.has-villain{width:64px!important;height:72px!important;flex-basis:64px}
+  .character-avatar{width:82px!important;height:96px!important}
+  .tab-content{padding:9px!important}
+}
+@media(max-width:520px){
+  .hero-button.threat-mode{width:225px!important;height:260px!important}
+  .bottom-dock{height:74px!important;gap:4px!important;padding:5px!important}
+  .dock-btn{grid-template-rows:34px auto!important;border-radius:12px!important}
+  .dock-btn span{width:34px;height:34px;font-size:27px!important}
+  .dock-btn b{font-size:7px!important}
+  .side-action span{font-size:22px!important}
+  .tab-content{padding:8px!important}
+  .character-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .character-avatar{width:78px!important;height:91px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .figure-specular,.figure-eye-flash,.asset-villain[data-motion="orbit"] .villain-sprite,.asset-villain[data-motion="specter"] .villain-sprite{animation:none!important}
 }
