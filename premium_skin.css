@@ -500,7 +500,7 @@ html[data-theme="light"] .toast{background:#ffffff!important;color:#172438!impor
 /* Hand-authored enemy SVGs remain as fallbacks; named bosses use full
    production cutouts with their own animation personalities. */
 .asset-villain{overflow:visible!important;isolation:isolate}
-.villain-sprite{position:relative;z-index:4;width:94%;height:96%;object-fit:contain;filter:drop-shadow(0 20px 17px rgba(0,0,0,.46)) drop-shadow(0 0 14px color-mix(in srgb,var(--villainGlow) 26%,transparent));transform-origin:50% 88%;will-change:transform;backface-visibility:hidden}
+.villain-sprite{position:relative;z-index:4;width:94%;height:96%;object-fit:contain;filter:hue-rotate(var(--invasion-hue,0deg)) saturate(var(--invasion-saturation,1)) brightness(var(--invasion-brightness,1)) contrast(var(--invasion-contrast,1)) drop-shadow(0 20px 17px rgba(0,0,0,.46)) drop-shadow(0 0 14px color-mix(in srgb,var(--villainGlow) 26%,transparent));transform-origin:50% 88%;will-change:transform;backface-visibility:hidden}
 .enemy-button-boss .villain-sprite{width:100%;height:100%}
 .asset-villain[data-motion="stalker"] .villain-sprite{animation:villainStalker 3.2s ease-in-out infinite}
 .asset-villain[data-motion="glitch"] .villain-sprite{animation:villainGlitch 2.75s steps(1,end) infinite}
@@ -512,7 +512,7 @@ html[data-theme="light"] .toast{background:#ffffff!important;color:#172438!impor
 .villain-scan{position:absolute;z-index:6;left:18%;right:18%;top:20%;height:2px;background:linear-gradient(90deg,transparent,var(--villainGlow),transparent);box-shadow:0 0 10px var(--villainGlow);opacity:.6;animation:villainScan 3.4s ease-in-out infinite;pointer-events:none}
 .hero-button.shooting.threat-mode .villain-sprite{animation:villainSpriteImpact .22s ease-out!important}
 .villain-card:not(.asset-villain){animation:villainIdle 3.8s ease-in-out infinite}.villain-card:not(.asset-villain) .enemy-svg{animation:none!important;transform:translateZ(18px) rotateY(var(--stage-counter-y)) rotateX(var(--stage-counter-x))!important}.hero-button.shooting.threat-mode .villain-card:not(.asset-villain){animation:villainImpact .2s ease-out!important}
-html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,66,88,.24)) drop-shadow(0 0 10px color-mix(in srgb,var(--villainGlow) 24%,transparent))}
+html[data-theme="light"] .villain-sprite{filter:hue-rotate(var(--invasion-hue,0deg)) saturate(var(--invasion-saturation,1)) brightness(var(--invasion-brightness,1)) contrast(var(--invasion-contrast,1)) drop-shadow(0 18px 15px rgba(50,66,88,.24)) drop-shadow(0 0 10px color-mix(in srgb,var(--villainGlow) 24%,transparent))}
 
 /* The boss is visible before combat, both on Home and in the district list. */
 .boss-rush-card{grid-template-columns:58px minmax(0,1fr) auto!important}
@@ -735,4 +735,99 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
   .asset-villain[data-villain]{--villain-art-size:66%}
   .asset-villain[data-villain="morana"],.asset-villain[data-villain="grimoire"]{--villain-art-size:63%}
   .ultimate-panel{width:min(272px,76%)!important}
+}
+
+/* =========================================================
+   V20.5 — ROSTER LABELS / LEVEL LAYERS / INVASION VARIANTS
+   ========================================================= */
+.character-card{
+  display:grid!important;
+  grid-template-rows:minmax(106px,1fr) auto auto!important;
+  align-content:stretch!important;
+  justify-items:center!important;
+}
+.character-avatar{
+  position:relative!important;
+  overflow:visible!important;
+  margin:0 auto 7px!important;
+}
+.character-nameplate{
+  position:absolute;
+  z-index:7;
+  left:50%;
+  bottom:-2px;
+  width:min(132px,calc(100% + 38px));
+  padding:5px 7px 4px;
+  border:1px solid color-mix(in srgb,var(--char-accent) 42%,rgba(255,255,255,.12));
+  border-radius:9px;
+  background:linear-gradient(180deg,rgba(23,18,27,.9),rgba(8,7,11,.97));
+  box-shadow:0 6px 14px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.07);
+  transform:translateX(-50%);
+  pointer-events:none;
+  box-sizing:border-box;
+}
+.character-nameplate b{
+  display:block!important;
+  color:#fff!important;
+  font-size:9px!important;
+  line-height:1.12!important;
+  text-wrap:balance;
+}
+.character-nameplate small{
+  display:block!important;
+  margin-top:2px!important;
+  color:color-mix(in srgb,var(--char-accent) 78%,white)!important;
+  font-size:5.5px!important;
+  line-height:1.1!important;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.character-card.selected .character-nameplate{
+  border-color:var(--char-accent);
+  box-shadow:0 0 15px color-mix(in srgb,var(--char-accent) 30%,transparent),0 6px 14px rgba(0,0,0,.38);
+}
+.character-lock{z-index:9!important}
+.character-choice-state{
+  margin-top:2px!important;
+  color:var(--t-muted)!important;
+  font-size:6px!important;
+  font-weight:850;
+  letter-spacing:.04em;
+}
+.character-card.selected .character-choice-state{color:var(--char-accent)!important}
+.character-passive{align-self:start;margin-top:4px!important;font-size:6.5px!important}
+
+.levels-tab.active{
+  grid-template-rows:auto auto minmax(0,1fr)!important;
+  align-content:stretch!important;
+  overflow:hidden!important;
+}
+.levels-tab>.daily-header{grid-row:1;position:relative;z-index:6}
+.levels-tab>.tactics-panel{
+  grid-row:2;
+  position:relative!important;
+  z-index:5!important;
+  pointer-events:auto!important;
+  isolation:isolate;
+}
+.levels-tab>.level-list{
+  grid-row:3;
+  min-height:0!important;
+  overflow-y:auto!important;
+  position:relative;
+  z-index:1;
+}
+
+.asset-villain[data-invasion]:not([data-invasion="boss"]) .villain-portal{
+  background:radial-gradient(circle,color-mix(in srgb,var(--villainGlow) 34%,transparent),color-mix(in srgb,var(--villainAccent) 11%,transparent) 38%,transparent 69%);
+}
+.asset-villain[data-invasion]:not([data-invasion="boss"]) .villain-scan{
+  box-shadow:0 0 15px var(--villainGlow),0 0 28px color-mix(in srgb,var(--villainAccent) 36%,transparent);
+}
+
+@media(max-width:520px){
+  .character-card{grid-template-rows:minmax(100px,1fr) auto auto!important}
+  .character-nameplate{width:min(126px,calc(100% + 34px))}
+  .character-nameplate b{font-size:8.5px!important}
+  .levels-tab>.tactics-panel{padding:7px!important}
 }

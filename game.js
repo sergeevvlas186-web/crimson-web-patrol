@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 
-const BUILD_VERSION="0.20.4";
+const BUILD_VERSION="0.20.5";
 const STORAGE_KEY="crimson_web_patrol_v20";
 const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v19","crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
 const SUPPORTED_GAME_LANGS=["ru"];
@@ -54,12 +54,12 @@ const LEVEL_ICONS=["🕯️","🧵","🔻","🌙","🛸","⚡","🦅","🦾","�
 const LEVEL_TITLES=["Новобранец","Нить пробуждается","Красный след","Ночной бегун","Техно-дозор","Импульс","Глаз крыш","Страж","Багровый огонь","Защитник района","Хозяин крыш","Командир отряда","Красный сигнал","Охотник сети","Всевидящий","Шторм улиц","Щит города","Хранитель неба","Клинок сети","Легенда","Сверхзаряд","Падающая звезда","Оракул","Башня дозора","Страж портала","Звёздный дозор","Сердце города","Живая молния","Единая сеть","Легенда мегаполиса"];
 
 const CITY_EVENTS=[
- {icon:"👻",name:"Фантомный налёт",desc:"Неизвестные фантомы захлестнули крыши."},
- {icon:"🤖",name:"Сбой охранных дронов",desc:"Городские машины вышли из-под контроля."},
- {icon:"🦂",name:"Алый Скорпион",desc:"Бронированный наёмник прорывается в центр."},
- {icon:"🌪️",name:"Разрыв над кварталом",desc:"Энергетическая буря пожирает сигналы сети."},
- {icon:"🧪",name:"Токсичный след",desc:"Опасный выброс движется по подземным туннелям."},
- {icon:"🎭",name:"Маска Тени",desc:"Элитный преступник глушит датчики дозора."}
+ {icon:"👻",name:"Фантомный налёт",desc:"Неизвестные фантомы захлестнули крыши.",skin:"phantomRaid"},
+ {icon:"🤖",name:"Сбой охранных дронов",desc:"Городские машины вышли из-под контроля.",skin:"securityDrones"},
+ {icon:"🦂",name:"Алый Скорпион",desc:"Бронированный наёмник прорывается в центр.",skin:"scarletScorpion"},
+ {icon:"🌪️",name:"Разрыв над кварталом",desc:"Энергетическая буря пожирает сигналы сети.",skin:"quarterRift"},
+ {icon:"🧪",name:"Токсичный след",desc:"Опасный выброс движется по подземным туннелям.",skin:"toxicTrail"},
+ {icon:"🎭",name:"Маска Тени",desc:"Элитный преступник глушит датчики дозора.",skin:"shadowMask"}
 ];
 
 const DANGER_TIERS=[
@@ -72,7 +72,7 @@ const DANGER_TIERS=[
 
 const HERO_LINES=["Город ещё не спит.","Вижу движение на крышах.","Сеть чувствует угрозу.","Ещё один квартал под защитой.","Нельзя терять темп.","Слышишь сирены? Я уже там.","Сегодня город будет тише.","Держим линию.","Есть контакт. Работаем.","Крыши — лучший наблюдательный пункт."];
 
-const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=20.0.4",nika:"assets/chibi/nika.webp?v=20.0.4",rey:"assets/chibi/rey.webp?v=20.0.4",mira:"assets/chibi/mira.webp?v=20.0.4",kai:"assets/chibi/kai.webp?v=20.0.4",umbra:"assets/chibi/umbra.webp?v=20.0.4"};
+const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=20.0.5",nika:"assets/chibi/nika.webp?v=20.0.5",rey:"assets/chibi/rey.webp?v=20.0.5",mira:"assets/chibi/mira.webp?v=20.0.5",kai:"assets/chibi/kai.webp?v=20.0.5",umbra:"assets/chibi/umbra.webp?v=20.0.5"};
 const VILLAIN_ASSETS={morana:"assets/villains/morana.webp",volt:"assets/villains/volt.webp",magnetron:"assets/villains/magnetron.webp",burrower:"assets/villains/burrower.webp",grimoire:"assets/villains/grimoire.webp",cryon:"assets/villains/cryon.webp",onyx:"assets/villains/onyx.webp",singular:"assets/villains/singular.webp"};
 const VILLAIN_PROFILES={
  morana:{asset:"morana",name:"Морана · Алый Мираж",skin:"#9d1835",dark:"#260913",glow:"#ff5aa9",stroke:"#ffd2eb",accent:"#ff3f83",motion:"stalker"},
@@ -83,6 +83,40 @@ const VILLAIN_PROFILES={
  cryon:{asset:"cryon",name:"Крион-Ноль · Сердце Купола",skin:"#337eaa",dark:"#071d38",glow:"#78efff",stroke:"#edfdff",accent:"#86a8ff",motion:"crusher"},
  onyx:{asset:"onyx",name:"Оникс · Пожиратель Света",skin:"#36205e",dark:"#0c0717",glow:"#cf6cff",stroke:"#f2ddff",accent:"#9d45ef",motion:"crusher"},
  singular:{asset:"singular",name:"Сингуляр · Орбитальный Разум",skin:"#24345d",dark:"#050913",glow:"#ffe39a",stroke:"#fff6d8",accent:"#d6a84c",motion:"orbit"}
+};
+
+// Every random invasion has its own production-art variant. Several variants
+// deliberately reuse the same 3D figure as a base, but receive a unique
+// palette, lighting and animation profile so consecutive threats never look
+// like an unchanged clone.
+const INVASION_SKINS={
+ phantomRaid:{asset:"grimoire",hue:-72,saturation:.72,brightness:1.18,contrast:.94,glow:"#bff8ff",accent:"#76dfff",motion:"specter"},
+ securityDrones:{asset:"magnetron",hue:-12,saturation:1.15,brightness:1.04,contrast:1.08,glow:"#70f7ff",accent:"#39cfff",motion:"glitch"},
+ scarletScorpion:{asset:"morana",hue:-12,saturation:1.38,brightness:.94,contrast:1.14,glow:"#ff795f",accent:"#ff344f",motion:"stalker"},
+ quarterRift:{asset:"onyx",hue:22,saturation:1.24,brightness:1.02,contrast:1.12,glow:"#ff6cff",accent:"#b66cff",motion:"orbit"},
+ toxicTrail:{asset:"burrower",hue:18,saturation:1.34,brightness:1.02,contrast:1.08,glow:"#8cff75",accent:"#34e39a",motion:"crusher"},
+ shadowMask:{asset:"grimoire",hue:28,saturation:1.18,brightness:.88,contrast:1.18,glow:"#dd8cff",accent:"#8f5bff",motion:"specter"},
+
+ roofPack:{asset:"burrower",hue:-48,saturation:1.34,brightness:.9,contrast:1.18,glow:"#ff6a64",accent:"#ffb13b",motion:"crusher"},
+ redConvoy:{asset:"volt",hue:142,saturation:1.38,brightness:.94,contrast:1.14,glow:"#ff6a72",accent:"#ff3658",motion:"glitch"},
+ scarletMirage:{asset:"morana",hue:0,saturation:1.08,brightness:1.04,contrast:1.06,glow:"#ff5aa9",accent:"#ff3f83",motion:"stalker"},
+
+ droneSwarm:{asset:"magnetron",hue:-8,saturation:1.22,brightness:1.05,contrast:1.1,glow:"#55f2ff",accent:"#00cfff",motion:"glitch"},
+ magneticStorm:{asset:"magnetron",hue:58,saturation:1.32,brightness:.98,contrast:1.14,glow:"#ff73e8",accent:"#b44cff",motion:"orbit"},
+ networkOverload:{asset:"volt",hue:27,saturation:1.42,brightness:1.12,contrast:1.08,glow:"#baff4f",accent:"#71f5ff",motion:"glitch"},
+ labLeak:{asset:"burrower",hue:5,saturation:1.18,brightness:1.06,contrast:1.05,glow:"#9dff51",accent:"#39e397",motion:"crusher"},
+ zeroPulse:{asset:"volt",hue:0,saturation:1.05,brightness:.9,contrast:1.22,glow:"#63f4ff",accent:"#2fccec",motion:"glitch"},
+
+ whitePhantom:{asset:"grimoire",hue:-86,saturation:.52,brightness:1.3,contrast:.9,glow:"#e6fdff",accent:"#91e9ff",motion:"specter"},
+ cryoGolem:{asset:"cryon",hue:0,saturation:.88,brightness:1.12,contrast:1.04,glow:"#aef7ff",accent:"#7abaff",motion:"crusher"},
+ superBlizzard:{asset:"singular",hue:154,saturation:.62,brightness:1.22,contrast:.98,glow:"#d9fbff",accent:"#86dfff",motion:"orbit"},
+ polarWatcher:{asset:"onyx",hue:-58,saturation:.66,brightness:1.16,contrast:1.08,glow:"#a6edff",accent:"#85a8ff",motion:"specter"},
+
+ minorRift:{asset:"onyx",hue:-8,saturation:1.22,brightness:.92,contrast:1.18,glow:"#dc71ff",accent:"#9e45ef",motion:"orbit"},
+ shardRain:{asset:"singular",hue:0,saturation:1.12,brightness:1.08,contrast:1.08,glow:"#ffe7a8",accent:"#ffc14d",motion:"orbit"},
+ nexusEye:{asset:"singular",hue:48,saturation:1.34,brightness:.92,contrast:1.18,glow:"#ee77ff",accent:"#b557ff",motion:"specter"},
+ starParasite:{asset:"onyx",hue:72,saturation:1.44,brightness:1.05,contrast:1.12,glow:"#ff69d9",accent:"#ff4b91",motion:"stalker"},
+ lightDevourer:{asset:"onyx",hue:0,saturation:1.08,brightness:.78,contrast:1.3,glow:"#d36cff",accent:"#7f39d8",motion:"crusher"}
 };
 
 const CHARACTERS=[
@@ -132,31 +166,31 @@ const CITY_HERO_LINES={
 };
 const CITY_EVENT_POOLS={
  crimson:[
- {icon:"🐺",name:"Стая на крышах",desc:"Бронированные рейдеры захватывают верхние уровни."},
- {icon:"🚨",name:"Красный конвой",desc:"Преступный караван прорывается через центр."},
- {icon:"🦂",name:"Алый Скорпион",desc:"Наёмник в панцире охотится на патруль."},
-  {icon:"🎭",name:"Маска Тени",desc:"Диверсант глушит камеры и ложные маяки."},
-  {icon:"🕷️",name:"Вторжение Алого Миража",desc:"Морана вышла на охоту и зеркалит атаки патруля.",villainAsset:"morana"}
+ {icon:"🐺",name:"Стая на крышах",desc:"Бронированные рейдеры захватывают верхние уровни.",skin:"roofPack"},
+ {icon:"🚨",name:"Красный конвой",desc:"Преступный караван прорывается через центр.",skin:"redConvoy"},
+ {icon:"🦂",name:"Алый Скорпион",desc:"Наёмник в панцире охотится на патруль.",skin:"scarletScorpion"},
+  {icon:"🎭",name:"Маска Тени",desc:"Диверсант глушит камеры и ложные маяки.",skin:"shadowMask"},
+  {icon:"🕷️",name:"Вторжение Алого Миража",desc:"Морана вышла на охоту и зеркалит атаки патруля.",skin:"scarletMirage"}
  ],
  neon:[
-  {icon:"🤖",name:"Рой дронов",desc:"Портовые машины синхронно вышли из-под контроля.",villainAsset:"magnetron"},
-  {icon:"🧲",name:"Магнитный шторм",desc:"Контейнеры и краны сорвались с креплений.",villainAsset:"magnetron"},
-  {icon:"⚡",name:"Перегрузка сети",desc:"Неоновая инфраструктура работает на критическом напряжении."},
-  {icon:"🧪",name:"Лабораторная утечка",desc:"Из подземного комплекса вырвался экспериментальный организм.",villainAsset:"burrower"},
-  {icon:"⚡",name:"Нулевой Импульс",desc:"Вольт перехватил энергосеть порта и вызывает перегрузки.",villainAsset:"volt"}
+  {icon:"🤖",name:"Рой дронов",desc:"Портовые машины синхронно вышли из-под контроля.",skin:"droneSwarm"},
+  {icon:"🧲",name:"Магнитный шторм",desc:"Контейнеры и краны сорвались с креплений.",skin:"magneticStorm"},
+  {icon:"⚡",name:"Перегрузка сети",desc:"Неоновая инфраструктура работает на критическом напряжении.",skin:"networkOverload"},
+  {icon:"🧪",name:"Лабораторная утечка",desc:"Из подземного комплекса вырвался экспериментальный организм.",skin:"labLeak"},
+  {icon:"⚡",name:"Нулевой Импульс",desc:"Вольт перехватил энергосеть порта и вызывает перегрузки.",skin:"zeroPulse"}
  ],
  frost:[
-  {icon:"🌫️",name:"Белый фантом",desc:"Аномалия скрывает целый сектор в ледяном тумане.",villainAsset:"grimoire"},
-  {icon:"🧊",name:"Крио-голем",desc:"Замёрзший промышленный автомат ожил.",villainAsset:"cryon"},
-  {icon:"🌨️",name:"Сверхметель",desc:"Сеть теряет связь между секторами.",villainAsset:"grimoire"},
-  {icon:"👁️",name:"Полярный наблюдатель",desc:"Неизвестное существо следит из снежной стены.",villainAsset:"cryon"}
+  {icon:"🌫️",name:"Белый фантом",desc:"Аномалия скрывает целый сектор в ледяном тумане.",skin:"whitePhantom"},
+  {icon:"🧊",name:"Крио-голем",desc:"Замёрзший промышленный автомат ожил.",skin:"cryoGolem"},
+  {icon:"🌨️",name:"Сверхметель",desc:"Сеть теряет связь между секторами.",skin:"superBlizzard"},
+  {icon:"👁️",name:"Полярный наблюдатель",desc:"Неизвестное существо следит из снежной стены.",skin:"polarWatcher"}
  ],
  astra:[
-  {icon:"🕳️",name:"Малый разлом",desc:"Пространство рвётся прямо над жилым сектором."},
-  {icon:"☄️",name:"Осколочный дождь",desc:"Орбитальный мусор пробивает защитные поля.",villainAsset:"singular"},
-  {icon:"🧿",name:"Глаз Нексуса",desc:"Сеть сама выбирает цели и перестаёт слушаться.",villainAsset:"singular"},
-  {icon:"👾",name:"Звёздный паразит",desc:"Чужая форма жизни закрепилась на энергетическом узле.",villainAsset:"onyx"},
-  {icon:"⬢",name:"Пожиратель Света",desc:"Оникс вышел из разлома и гасит орбитальные маяки.",villainAsset:"onyx"}
+  {icon:"🕳️",name:"Малый разлом",desc:"Пространство рвётся прямо над жилым сектором.",skin:"minorRift"},
+  {icon:"☄️",name:"Осколочный дождь",desc:"Орбитальный мусор пробивает защитные поля.",skin:"shardRain"},
+  {icon:"🧿",name:"Глаз Нексуса",desc:"Сеть сама выбирает цели и перестаёт слушаться.",skin:"nexusEye"},
+  {icon:"👾",name:"Звёздный паразит",desc:"Чужая форма жизни закрепилась на энергетическом узле.",skin:"starParasite"},
+  {icon:"⬢",name:"Пожиратель Света",desc:"Оникс вышел из разлома и гасит орбитальные маяки.",skin:"lightDevourer"}
  ]
 };
 
@@ -763,9 +797,9 @@ function renderCharacters(){
   el.heroCollectionStatus.textContent=`${unlocked.size} / ${CHARACTERS.length}`;
   el.characterList.innerHTML=CHARACTERS.map(c=>{
     const open=unlocked.has(c.id),selected=state.selectedCharacter===c.id,monster=!c.form.startsWith("human");
-    return `<button class="character-card ${monster?"monster":""} ${selected?"selected":""} ${open?"":"locked"}" style="--char-accent:${c.accent}" data-character-choice="${c.id}" ${open&&!activeCityEvent?"":"disabled"}>
-      <span class="character-avatar">${CHIBI_ASSETS[c.id]?`<img src="${CHIBI_ASSETS[c.id]}" alt="${c.name}">`:characterPortraitMarkup(c)}</span>${open?"":`<span class="character-lock">${c.premium?"💎 Хранилище":`ур. ${c.unlock}`}</span>`}
-      <b>${c.name} · ${c.codename}</b><small class="character-species">${c.species}</small><small>${open?"Доступен для выбора":c.premium?"Коллекционная форма из Хранилища":`Откроется на уровне ${c.unlock}`}</small><small class="character-passive">${c.bonus}</small>
+    return `<button class="character-card ${monster?"monster":""} ${selected?"selected":""} ${open?"":"locked"}" style="--char-accent:${c.accent}" data-character-choice="${c.id}" aria-label="${open?"Выбрать":"Недоступен"}: ${c.name} · ${c.codename}" ${open&&!activeCityEvent?"":"disabled"}>
+      <span class="character-avatar">${CHIBI_ASSETS[c.id]?`<img src="${CHIBI_ASSETS[c.id]}" alt="${c.name}">`:characterPortraitMarkup(c)}<span class="character-nameplate"><b>${c.name} · ${c.codename}</b><small>${c.species}</small></span></span>${open?"":`<span class="character-lock">${c.premium?"💎 Хранилище":`ур. ${c.unlock}`}</span>`}
+      <small class="character-choice-state">${selected?"✓ ВЫБРАН":open?"Нажми, чтобы выбрать":c.premium?"Коллекционная форма из Хранилища":`Откроется на уровне ${c.unlock}`}</small><small class="character-passive">${c.bonus}</small>
     </button>`;
   }).join("");
   el.characterList.querySelectorAll("[data-character-choice]").forEach(b=>b.addEventListener("click",()=>selectCharacter(b.dataset.characterChoice)));
@@ -1019,6 +1053,10 @@ function enemyVisualSpec(){
     };
     return bosses[activeCityEvent.districtId]||bosses.roofs;
   }
+  const invasionSkin=INVASION_SKINS[activeCityEvent.skin];
+  if(invasionSkin&&VILLAIN_PROFILES[invasionSkin.asset]){
+    return {...VILLAIN_PROFILES[invasionSkin.asset],...invasionSkin,tone:"threat",name:activeCityEvent.name,icon:activeCityEvent.icon,variant:activeCityEvent.skin};
+  }
   if(activeCityEvent.villainAsset&&VILLAIN_PROFILES[activeCityEvent.villainAsset]){
     return {...VILLAIN_PROFILES[activeCityEvent.villainAsset],tone:"threat",name:activeCityEvent.name};
   }
@@ -1041,13 +1079,19 @@ function enemyVisualSpec(){
 }
 function enemyVisualMarkup(spec){
   const boss=spec.tone==="boss";
-  if(spec.asset&&VILLAIN_ASSETS[spec.asset])return `<div class="villain-card asset-villain living-figure enemy-button-${spec.tone}" data-villain="${spec.asset}" data-motion="${spec.motion||"stalker"}" style="--villainGlow:${spec.glow};--villainAccent:${spec.accent};">
-    <span class="villain-portal figure-depth depth-back"></span><span class="villain-shadow"></span>
-    <span class="figure-extrusion villain-extrusion" aria-hidden="true"><img src="${VILLAIN_ASSETS[spec.asset]}" alt="" draggable="false"></span>
-    <span class="figure-body-plane"><img class="villain-sprite" src="${VILLAIN_ASSETS[spec.asset]}" alt="${spec.name}" draggable="false"></span>
-    <span class="villain-core-flare figure-depth depth-mid"></span><span class="villain-scan figure-depth depth-front"></span>
-    <span class="figure-specular" aria-hidden="true"></span><span class="figure-eye-flash" aria-hidden="true"></span>
-  </div>`;
+  if(spec.asset&&VILLAIN_ASSETS[spec.asset]){
+    const hue=Number.isFinite(spec.hue)?spec.hue:0;
+    const saturation=Number.isFinite(spec.saturation)?spec.saturation:1;
+    const brightness=Number.isFinite(spec.brightness)?spec.brightness:1;
+    const contrast=Number.isFinite(spec.contrast)?spec.contrast:1;
+    return `<div class="villain-card asset-villain living-figure enemy-button-${spec.tone}" data-villain="${spec.asset}" data-invasion="${spec.variant||"boss"}" data-motion="${spec.motion||"stalker"}" style="--villainGlow:${spec.glow};--villainAccent:${spec.accent};--invasion-hue:${hue}deg;--invasion-saturation:${saturation};--invasion-brightness:${brightness};--invasion-contrast:${contrast};">
+      <span class="villain-portal figure-depth depth-back"></span><span class="villain-shadow"></span>
+      <span class="figure-extrusion villain-extrusion" aria-hidden="true"><img src="${VILLAIN_ASSETS[spec.asset]}" alt="" draggable="false"></span>
+      <span class="figure-body-plane"><img class="villain-sprite" src="${VILLAIN_ASSETS[spec.asset]}" alt="${spec.name}" draggable="false"></span>
+      <span class="villain-core-flare figure-depth depth-mid"></span><span class="villain-scan figure-depth depth-front"></span>
+      <span class="figure-specular" aria-hidden="true"></span><span class="figure-eye-flash" aria-hidden="true"></span>
+    </div>`;
+  }
   const deco = spec.head==="wolf" ? `<path d="M132 95l-18-18-7 28" class="enemy-crown"/><path d="M227 95l18-18 7 28" class="enemy-crown"/>` :
     spec.head==="magnet" ? `<path d="M125 108c0-24 17-41 39-41h9v17h-7c-11 0-20 9-20 20v20h-21zm110 0c0-24-17-41-39-41h-9v17h7c11 0 20 9 20 20v20h21z" class="enemy-crown"/>` :
     spec.head==="mask" ? `<path d="M134 110c18-15 74-15 92 0l-10 16c-13-6-24-8-36-8-14 0-25 2-36 8z" class="enemy-crown"/>` :
