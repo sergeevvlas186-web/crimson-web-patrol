@@ -1101,6 +1101,7 @@ function renderTargetVisual(){
     el.targetPulse.classList.add("hidden");
     el.enemyVisual.innerHTML="";
     el.enemyVisual.dataset.key="";
+    el.enemyVisual.setAttribute("aria-hidden","true");
     el.heroStage?.classList.remove("enemy-present");
     el.heroVisual?.removeAttribute("aria-hidden");
     el.heroButton.setAttribute("aria-label","Запустить энергетическую сеть");
@@ -1109,6 +1110,7 @@ function renderTargetVisual(){
   el.heroButton.classList.add("threat-mode");
   el.heroButton.dataset.villainTone=spec.tone;
   el.enemyVisual.classList.remove("hidden");
+  el.enemyVisual.setAttribute("aria-hidden","false");
   el.targetPulse.classList.remove("hidden");
   el.heroStage?.classList.add("enemy-present");
   el.heroVisual?.setAttribute("aria-hidden","true");
