@@ -670,7 +670,7 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
 }
 
 /* =========================================================
-   V20.3 — CHARACTER SAFE AREA / CENTERED ULTIMATE
+   V20.4 — CHARACTER SAFE AREA / CENTERED ULTIMATE
    Every figure gets its own optical scale. The stage clips only its own
    artwork, so no hero or boss can cover the level, stats or action cards.
    ========================================================= */
@@ -686,6 +686,8 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
 .hero-model[data-model="umbra"]{--hero-art-size:70%}
 .hero-model .figure-body-plane .chibi-sprite,
 .hero-model .figure-extrusion img{width:var(--hero-art-size)!important;height:var(--hero-art-size)!important;object-fit:contain!important}
+.hero-model .figure-body-plane{transform:translateY(-5%) translateZ(30px) rotateY(var(--figure-look-x)) rotateX(var(--figure-look-y))!important}
+.hero-model .figure-extrusion{transform:translate3d(5px,-5%,-18px) scale(1.008)!important}
 
 .asset-villain{--villain-art-size:74%}
 .asset-villain[data-villain="morana"]{--villain-art-size:72%}
@@ -698,12 +700,14 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
 .asset-villain[data-villain="singular"]{--villain-art-size:74%}
 .asset-villain .figure-body-plane .villain-sprite,
 .asset-villain .villain-extrusion img{width:var(--villain-art-size)!important;height:var(--villain-art-size)!important;object-fit:contain!important}
+.asset-villain .figure-body-plane{transform:translateY(-4%) translateZ(30px) rotateY(var(--figure-look-x)) rotateX(var(--figure-look-y))!important}
+.asset-villain .villain-extrusion{transform:translate3d(5px,-4%,-18px) scale(1.008)!important}
 
 .hero-button:not(.threat-mode){margin-bottom:0!important}
 .ultimate-panel{
-  position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;
+  position:absolute!important;left:50%!important;right:auto!important;bottom:5px!important;margin:0!important;
   width:min(300px,70%)!important;
-  transform:translateZ(40px)!important;
+  transform:translateX(-50%) translateZ(40px)!important;
   transform-origin:50% 50%!important;justify-self:center!important;align-self:center!important
 }
 
