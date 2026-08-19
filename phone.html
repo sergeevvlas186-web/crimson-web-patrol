@@ -1,1 +1,634 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="refresh" content="0;url=./index.html"><title>Багровая Сеть</title></head><body><script>location.replace('./index.html')</script></body></html>
+<!doctype html>
+<html lang="ru" data-theme="red">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#160508">
+  <title>Багровая Сеть: Живые Злодеи</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="premium_skin.css">
+</head>
+<body data-build="0.19.0">
+  <div class="comic-bg" aria-hidden="true">
+    <div class="moon"></div>
+    <div class="speed-lines"></div>
+    <div class="web-grid"></div>
+    <div class="city city-back"></div>
+    <div class="city city-front"></div>
+    <div class="fog fog-a"></div>
+    <div class="fog fog-b"></div>
+    <div class="sky-drone drone-a"><span></span></div>
+    <div class="sky-drone drone-b"><span></span></div>
+    <div class="signal-beam beam-a"></div>
+    <div class="signal-beam beam-b"></div>
+    <div class="ambient-particles">
+      <span class="particle p1"></span><span class="particle p2"></span><span class="particle p3"></span>
+      <span class="particle p4"></span><span class="particle p5"></span><span class="particle p6"></span>
+    </div>
+    <div class="world-weather">
+      <i class="weather-line wl1"></i><i class="weather-line wl2"></i><i class="weather-line wl3"></i>
+      <i class="weather-line wl4"></i><i class="weather-line wl5"></i><i class="weather-line wl6"></i>
+      <i class="weather-dot wd1"></i><i class="weather-dot wd2"></i><i class="weather-dot wd3"></i>
+      <i class="weather-dot wd4"></i><i class="weather-dot wd5"></i>
+    </div>
+    <div class="world-horizon"></div>
+  </div>
+
+  <div id="releaseSplash" class="release-splash">
+    <div class="release-splash-glow"></div>
+    <img src="assets/chibi/arsen.webp" alt="" class="release-splash-hero">
+    <div class="release-splash-logo">◆</div>
+    <h1>БАГРОВАЯ СЕТЬ</h1>
+    <p>WebGL Patrol</p>
+    <div class="release-load-track"><div id="releaseLoadFill"></div></div>
+    <small id="releaseLoadText">Подключаем городскую сеть…</small>
+  </div>
+
+  <div class="app">
+    <header class="hud glass premium-hud">
+      <div class="hud-profile">
+        <div class="hud-avatar-frame"><img id="topHeroAvatar" src="assets/chibi/arsen.webp" alt="Герой"></div>
+        <div class="hud-level-copy"><span>УРОВЕНЬ</span><b id="rankText">1</b><div class="rank-track"><div id="rankFill"></div></div><small id="xpText">0 / 100 XP</small></div>
+      </div>
+      <button class="hud-resource hud-coin" data-home-focus="true"><span class="hud-resource-icon">✦</span><div><b id="topThreats">0</b><small id="topPerSecond">+0/сек</small></div></button>
+      <button id="vaultBtn" class="hud-resource hud-crystal" title="Хранилище Сети"><span class="hud-resource-icon">♦</span><div><b id="shardBalanceTop">0</b><small>Осколки</small></div><em>+</em></button>
+      <button class="hud-world" data-bottom-target="map"><span id="topCityIcon">🌆</span><div><b id="topCityName">Неонград</b><small id="topDistrictName">Красные Крыши</small></div></button>
+      <div class="hud-actions premium-hud-actions">
+        <button id="inviteBtn" class="hud-btn" title="Пригласить друзей">🤝</button>
+        <button id="musicBtn" class="hud-btn" title="Музыка">🎵</button>
+        <button id="soundBtn" class="hud-btn" title="Звуки">🔊</button>
+        <button id="themeBtn" class="hud-btn compact-setting" title="Тема">◐</button>
+        <button id="infoBtn" class="hud-btn" title="Помощь">⚙</button>
+      </div>
+    </header>
+
+    <button id="mobileThemeBtn" class="mobile-theme-fab" type="button" aria-label="Выбрать тему интерфейса">
+      <span>◐</span><b>ТЕМА</b>
+    </button>
+
+    <main class="layout">
+      <section class="play-card glass premium-play-card">
+        <div class="side-actions side-left" aria-label="Быстрые разделы">
+          <button class="side-action" data-bottom-target="daily"><span>📋</span><b>ЗАДАНИЯ</b><i id="sideDailyDot">!</i></button>
+          <button class="side-action" data-bottom-target="achievements"><span>🏆</span><b>ТРОФЕИ</b></button>
+          <button class="side-action" data-bottom-target="levels"><span>⭐</span><b>УРОВНИ</b></button>
+        </div>
+        <div class="side-actions side-right" aria-label="Награды">
+          <button class="side-action" id="sideGiftBtn"><span>🎁</span><b>ПОДАРОК</b><i id="sideGiftDot" class="hidden">!</i></button>
+          <button class="side-action" id="sideSpinBtn"><span>🎡</span><b>БУСТ</b></button>
+          <button class="side-action" id="sideFreeBtn"><span>🧰</span><b>ТАЙНИК</b></button>
+        </div>
+        <div class="resource-row">
+          <div class="resource-block">
+            <span id="resourceLabel">Нейтрализовано угроз</span>
+            <strong id="threats">0</strong>
+          </div>
+          <div class="resource-block right">
+            <span id="passiveLabel">Дозор / сек</span>
+            <strong id="perSecond">0</strong>
+          </div>
+        </div>
+
+        <div class="status-row">
+          <div id="boostBadge" class="status-pill green hidden">⚡ Адреналин <span id="boostTime"></span></div>
+          <div id="prestigeBadge" class="status-pill purple">◆ Наследие x1.00</div>
+          <div id="dangerBadge" class="status-pill danger">⚠ Угроза I · x1.00</div>
+          <div id="feverBadge" class="status-pill red hidden">🔥 Город в сети x1.5</div>
+          <div id="comboBadge" class="status-pill orange hidden">✦ Серия x1.00</div>
+          <div id="heroBadge" class="status-pill hero-badge">◆ Арсен · Багровый</div>
+          <div id="cityBadge" class="status-pill world-badge">🌆 Багровый Мегаполис</div>
+          <div id="districtBadge" class="status-pill cyan">📍 Красные Крыши</div>
+          <div id="trackBadge" class="status-pill cyan">♫ Ночной дозор</div>
+        </div>
+
+        <div class="rift-card glassy-card">
+          <div class="rift-copy"><span>ИЗЮМИНКА СЕССИИ</span><b id="riftTitle">Тёмный Разлом</b><small id="riftHint">Заполняй шкалу кликами, угрозами и боссами — затем открывай сверхнаграду.</small></div>
+          <div class="rift-controls">
+            <div class="rift-meter"><div id="riftFill"></div></div>
+            <button id="riftBtn" class="secondary-btn compact-btn">0%</button>
+          </div>
+        </div>
+
+        <div class="boss-rush-card">
+          <div id="bossRushVisual" class="boss-rush-visual" aria-hidden="true"><span>👹</span></div>
+          <div><span>ОХОТА НА БОССА</span><b id="bossRushName">Босс района</b><small id="bossRushHint">Вызови злодея текущего района.</small></div>
+          <button id="bossRushBtn" class="primary-btn compact-btn">БОСС</button>
+        </div>
+
+        <div class="premium-scoreline">
+          <span class="score-web">✧</span><strong id="centerThreats">0</strong><small id="centerGain">+1 за выпуск</small>
+        </div>
+        <div class="hero-stage premium-hero-stage">
+          <div class="comic-burst"></div>
+          <div class="hero-spotlight"></div>
+          <div class="hero-floor"></div>
+          <div class="gl-stage-grid"></div>
+          <div class="gl-stage-light gl-a"></div>
+          <div class="gl-stage-light gl-b"></div>
+          <div class="hero-ring ring-a"></div>
+          <div class="hero-ring ring-b"></div>
+
+          <button id="heroButton" class="hero-button" aria-label="Запустить энергетическую сеть">
+            <div id="heroVisual" class="hero-visual"><svg class="hero-svg human-hero deluxe-hero" viewBox="0 0 360 360" role="img" aria-label="Оригинальный объёмный супергерой города выпускает энергетическую сеть">
+              <defs>
+                <radialGradient id="heroAura" cx="50%" cy="44%" r="58%">
+                  <stop offset="0" stop-color="rgba(255,255,255,.28)"/>
+                  <stop offset=".58" stop-color="rgba(255,255,255,.05)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                </radialGradient>
+                <linearGradient id="skinGradV8" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#f5c7a4"/>
+                  <stop offset=".45" stop-color="#de9c74"/>
+                  <stop offset="1" stop-color="#b66c52"/>
+                </linearGradient>
+                <linearGradient id="suitMainV8" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#2f0710"/>
+                  <stop offset=".28" stop-color="#7f1024"/>
+                  <stop offset=".6" stop-color="#d61c3e"/>
+                  <stop offset="1" stop-color="#500916"/>
+                </linearGradient>
+                <linearGradient id="suitShadowV8" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#1d050b"/>
+                  <stop offset="1" stop-color="#5c0b1b"/>
+                </linearGradient>
+                <linearGradient id="visorGlowV8" x1="0" x2="1">
+                  <stop offset="0" stop-color="#f4fdff"/>
+                  <stop offset="1" stop-color="#52dcff"/>
+                </linearGradient>
+                <linearGradient id="energyV8" x1="0" x2="1">
+                  <stop offset="0" stop-color="#d7fbff"/>
+                  <stop offset=".55" stop-color="#67eeff"/>
+                  <stop offset="1" stop-color="#3eb2ff"/>
+                </linearGradient>
+              </defs>
+
+              <ellipse cx="180" cy="182" rx="150" ry="150" fill="url(#heroAura)" class="hero-aura"/>
+              <circle cx="180" cy="180" r="148" class="hero-halo"/>
+
+              <g class="body-back">
+                <path d="M101 291c11-74 31-117 79-134 57-20 100 15 113 134z" fill="url(#suitShadowV8)"/>
+                <path d="M112 258c-18 7-33 18-49 32" class="cape-line"/>
+                <path d="M244 251c24 8 38 18 58 32" class="cape-line"/>
+              </g>
+
+              <g class="human-body">
+                <path d="M121 302c5-69 18-115 59-135 43-21 82-2 98 36 11 24 17 53 20 99z" fill="url(#suitMainV8)" class="hero-torso"/>
+                <path d="M165 168h31v37h-31z" fill="url(#skinGradV8)" class="hero-neck"/>
+                <path d="M136 203c-10 14-15 35-16 58" class="abd-line"/>
+                <path d="M225 203c11 15 17 34 20 58" class="abd-line"/>
+                <path d="M128 178c18 17 39 26 55 26 21 0 43-10 62-28" class="suit-collar"/>
+                <path d="M182 204v96" class="suit-detail"/>
+                <path d="M150 232c18 8 47 8 66 0" class="suit-detail"/>
+                <path d="M146 265c15 5 58 6 72 0" class="suit-detail"/>
+                <path d="M106 208c-33 20-53 51-66 86" class="hero-arm-left"/>
+                <path d="M246 212c28 3 49 15 76-2" class="hero-arm-right"/>
+                <path d="M107 211c10 12 12 23 13 44" class="arm-shadow"/>
+                <path d="M235 220c11 5 20 8 35 8" class="arm-shadow"/>
+              </g>
+
+              <g class="human-head">
+                <ellipse cx="180" cy="118" rx="53" ry="64" fill="url(#skinGradV8)" class="face-shape"/>
+                <ellipse cx="126" cy="124" rx="7" ry="14" fill="#c87f5d"/>
+                <ellipse cx="234" cy="124" rx="7" ry="14" fill="#c87f5d"/>
+                <path d="M128 103c8-44 89-66 117-8-11-7-22-11-31-11-11 0-22 2-31 8-20 4-33 9-55 11z" class="hero-hair"/>
+                <path d="M134 93c14-27 33-39 56-39 25 0 44 12 52 35-17-8-37-12-59-12-18 1-36 6-49 16z" class="hero-hair-highlight"/>
+                <path d="M147 90c12-11 26-16 43-16 12 0 25 4 37 12" class="hair-strand"/>
+                <path d="M138 128c8-7 19-7 28 0-8 10-20 10-28 0z" class="eye-white"/>
+                <path d="M194 128c8-7 19-7 28 0-8 10-20 10-28 0z" class="eye-white"/>
+                <circle cx="152" cy="129" r="5.2" class="eye-iris"/>
+                <circle cx="208" cy="129" r="5.2" class="eye-iris"/>
+                <circle cx="153" cy="128" r="1.6" class="eye-glint"/>
+                <circle cx="209" cy="128" r="1.6" class="eye-glint"/>
+                <g class="eye-group left-lid">
+                  <rect x="137" y="123" width="31" height="10" rx="4" class="lid-shape"/>
+                </g>
+                <g class="eye-group right-lid">
+                  <rect x="193" y="123" width="31" height="10" rx="4" class="lid-shape"/>
+                </g>
+                <path d="M138 113c10-6 20-7 30-2M193 111c11-5 20-4 30 2" class="hero-brows"/>
+                <path d="M182 132c-4 13-4 19 4 23" class="hero-nose"/>
+                <path d="M166 164c9 7 21 8 30 1" class="hero-mouth"/>
+                <path d="M135 108c15-16 77-17 91 0l-5 17c-7-7-15-10-24-10-6 3-12 3-17 0-9 0-18 3-25 10z" class="tech-mask"/>
+                <path d="M148 116c8-5 14-6 22-2M193 114c8-4 14-3 22 2" class="mask-light"/>
+                <path d="M157 171c8 5 23 6 33 0" class="jaw-shadow"/>
+              </g>
+
+              <g class="shoulder-armor">
+                <ellipse cx="132" cy="190" rx="23" ry="16" class="armor-pad"/>
+                <ellipse cx="231" cy="191" rx="23" ry="16" class="armor-pad"/>
+                <path d="M117 191c10-8 22-10 31-2" class="armor-line"/>
+                <path d="M216 192c10-8 22-10 31-2" class="armor-line"/>
+              </g>
+
+              <g class="human-hand">
+                <circle cx="314" cy="223" r="18" fill="url(#skinGradV8)" class="hand-base"/>
+                <path d="M289 205h20c6 0 10 5 10 10v14c0 5-4 10-10 10h-20z" fill="url(#suitMainV8)" class="glove-base"/>
+                <rect x="301" y="208" width="18" height="12" rx="5" fill="url(#energyV8)" class="emitter"/>
+                <path d="M314 212c5 2 8 7 8 12" class="finger-line"/>
+              </g>
+
+              <path d="M316 224c18-11 30-27 39-46" class="energy-tail"/>
+              <circle cx="327" cy="217" r="8" class="web-core"/>
+              <path d="M332 214C353 191 364 167 375 141M333 218c21 4 33 9 42 17M330 223c16 20 24 37 31 55" class="web-shot"/>
+              <path d="M344 199l17 11M352 184l16 8M345 238l20-3M341 252l17-13" class="web-shot web-branches"/>
+
+              <ellipse cx="183" cy="323" rx="74" ry="17" class="hero-ground-shadow"/>
+            </svg></div>
+            <div id="enemyVisual" class="enemy-visual hidden" aria-hidden="true"></div>
+            <div id="targetPulse" class="target-pulse hidden" aria-hidden="true"></div>
+          </button>
+
+          <div id="ultimatePanel" class="ultimate-panel">
+            <button id="ultimateBtn" class="ultimate-btn" disabled>
+              <span id="ultimateIcon">◆</span>
+              <div class="ultimate-copy"><b id="ultimateName">Багровый рывок</b><small id="ultimateHint">Заряди суперприём</small></div>
+              <div class="ultimate-meter"><div id="ultimateFill"></div></div>
+              <em id="ultimatePercent">0%</em>
+            </button>
+          </div>
+
+          <div id="heroSpeech" class="hero-speech">Сегодня город выглядит спокойно. Пока что.</div>
+          <div class="click-power" id="clickPower">+1 за выпуск сети</div>
+          <div class="hero-caption">Нажимай на героя: сеть захватывает угрозы по всему фантастическому мегаполису.</div>
+        </div>
+
+        <div id="cityEvent" class="city-event hidden premium-event-card">
+          <div class="event-icon" id="eventIcon">⚠️</div>
+          <div class="event-main">
+            <div class="event-title-row">
+              <div>
+                <b id="eventName">Срочная угроза</b>
+                <small id="eventDesc">Кликай по герою, чтобы остановить событие.</small>
+              </div>
+              <span id="eventTimer">20с</span>
+            </div>
+            <div class="event-health"><div id="eventHpFill"></div></div>
+            <div class="event-meta"><span id="eventHpText">0 / 0</span><span id="eventReward">Награда: —</span></div>
+          </div>
+        </div>
+
+        <div class="level-card">
+          <div>
+            <span>Боевой уровень</span>
+            <b id="levelBonus">+0% к эффективности дозора</b>
+          </div>
+          <button id="levelUpBtn" class="level-up-btn" disabled>Повысить уровень</button>
+        </div>
+
+        <div class="mini-stats">
+          <div><span>Выпусков сети</span><b id="totalClicks">0</b></div>
+          <div><span>Всего угроз</span><b id="lifetimeThreats">0</b></div>
+          <div><span>Улучшений</span><b id="totalPurchases">0</b></div>
+          <div><span>Событий спасено</span><b id="eventWins">0</b></div>
+          <div><span>Наследие</span><b id="prestigeCount">0</b></div>
+        </div>
+
+        <div class="action-grid">
+          <button id="rewardBtn" class="action-card green-card">
+            <span class="action-icon">▶</span>
+            <span><b>Адреналин x2</b><small id="rewardHint">ускорить дозор на 2 минуты</small></span>
+          </button>
+          <button id="chestBtn" class="action-card amber-card">
+            <span class="action-icon">🧰</span>
+            <span><b id="chestTitle">Тайник дозора</b><small id="chestHint">открыть сейчас</small></span>
+          </button>
+          <button id="dailyBtn" class="action-card violet-card">
+            <span class="action-icon">📅</span>
+            <span><b>Награда дня</b><small id="dailyHint">забрать трофей</small></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel glass">
+        <nav class="tabs">
+          <button class="tab active" data-tab="shop">🛠 Арсенал</button>
+          <button class="tab" data-tab="daily">📜 Сегодня <span id="dailyDot" class="dot hidden"></span></button>
+                    <button class="tab" data-tab="map">🗺 Районы</button>
+          <button class="tab" data-tab="heroes">🧑 Герои</button>
+          <button class="tab" data-tab="levels">⭐ Уровни</button>
+          <button class="tab" data-tab="vault">💎 Хранилище</button>
+          <button class="tab" data-tab="achievements">🏆 Трофеи <span id="achievementDot" class="dot hidden"></span></button>
+        </nav>
+
+        <div id="shopTab" class="tab-content active">
+          <div class="panel-head">
+            <div>
+              <b id="shopWorldTitle">Развивай сеть мегаполиса</b>
+              <small id="shopWorldSubtitle">Каждый новый уровень открывает более мощные технологии</small>
+            </div>
+            <button id="buyModeBtn" class="buy-mode">x1</button>
+          </div>
+          <div id="shopList" class="scroll-list"></div>
+          <div class="prestige-box">
+            <div>
+              <b>◆ Наследие</b>
+              <small id="prestigeDesc">Откроется позже</small>
+            </div>
+            <button id="prestigeBtn" disabled>Начать новый цикл</button>
+          </div>
+        </div>
+
+        <div id="dailyTab" class="tab-content daily-tab">
+          <div class="daily-header">
+            <div>
+              <b>Миссии дня</b>
+              <small id="dailyDateText">Обновятся в полночь</small>
+            </div>
+            <span class="daily-refresh">↻ ежедневно</span>
+          </div>
+          <div id="dailyMissionList" class="scroll-list"></div>
+        </div>
+
+
+
+
+<div id="mapTab" class="tab-content map-tab">
+          <div class="daily-header">
+            <div>
+              <b id="mapWorldTitle">Районы Багрового Мегаполиса</b>
+              <small id="mapWorldSubtitle">Выбери мир здесь — отдельной вкладки городов больше нет</small>
+            </div>
+            <span class="daily-refresh" id="mapProgress">0 / 5</span>
+          </div>
+          <div id="worldSwitcher" class="world-switcher" aria-label="Выбор мира"></div>
+          <div id="worldContractCompact" class="world-contract-compact">
+            <div class="world-contract-copy"><span id="worldContractIcon">🌆</span><div><b id="worldContractTitle">Красная тревога</b><small id="worldContractDesc">События случаются чаще, а ручная паутина сильнее.</small></div></div>
+            <div id="worldModifierChips" class="world-modifier-chips"></div>
+          </div>
+          <div id="districtList" class="scroll-list district-list"></div>
+        </div>
+
+
+        <div id="heroesTab" class="tab-content heroes-tab">
+          <div class="daily-header">
+            <div>
+              <b>Герои и существа Сети</b>
+              <small>Два человека и три полноценных существа. У каждого — собственная анатомия, движения и специализация.</small>
+            </div>
+            <span class="daily-refresh" id="heroCollectionStatus">1 / 5</span>
+          </div>
+
+          <div id="characterList" class="character-list"></div>
+
+          <div class="costume-header">
+            <div><b>Гардероб</b><small>Костюмы открываются за победы над боссами районов.</small></div>
+            <span id="costumeCount">1 образ</span>
+          </div>
+          <div id="costumeList" class="scroll-list costume-list"></div>
+        </div>
+
+<div id="levelsTab" class="tab-content levels-tab">
+          <div class="daily-header">
+            <div>
+              <b>Путь защитника</b>
+              <small>Каждый уровень усиливает дозор и сразу выдаёт награду</small>
+            </div>
+            <span class="daily-refresh" id="levelPathStatus">1 / 30</span>
+          </div>
+
+          <div class="tactics-panel">
+            <div class="tactics-head">
+              <div><b>Тактические модули</b><small>Каждые 5 уровней — 1 очко. Собери собственную боевую специализацию.</small></div>
+              <span id="tacticPoints">0 очк.</span>
+            </div>
+            <div class="tactic-grid">
+              <button class="tactic-card" data-tactic="striker">
+                <span>🕸️</span><div><b>Штурмовик</b><small id="strikerInfo">ур. 0 · сила клика и крит</small></div><em>+</em>
+              </button>
+              <button class="tactic-card" data-tactic="network">
+                <span>📡</span><div><b>Сеть</b><small id="networkInfo">ур. 0 · пассивный дозор</small></div><em>+</em>
+              </button>
+              <button class="tactic-card" data-tactic="hunter">
+                <span>🎯</span><div><b>Охотник</b><small id="hunterInfo">ур. 0 · награды и боссы</small></div><em>+</em>
+              </button>
+            </div>
+          </div>
+
+          <div id="levelList" class="scroll-list level-list"></div>
+        </div>
+
+
+        <div id="vaultTab" class="tab-content vault-tab">
+          <div class="vault-hero">
+            <div class="vault-hero-copy">
+              <span class="world-eyebrow">Хранилище Сети</span>
+              <h3>Поддержи игру — собери редкие формы</h3>
+              <p>Платные товары — косметика, коллекционные формы и Осколки Нексуса. Основное прохождение не требует покупок.</p>
+            </div>
+            <div class="vault-balance">
+              <span>Осколки Нексуса</span>
+              <b>💎 <span id="shardBalance">0</span></b>
+            </div>
+          </div>
+
+          <div class="vault-status-row">
+            <div id="iapStatus" class="vault-sdk-status">SDK покупок: локальный режим</div>
+            <button id="restorePurchasesBtn" class="secondary-btn compact-btn">↻ Восстановить покупки</button>
+          </div>
+
+          <div class="vault-section-head">
+            <div><b>Покупки Яндекс Игр</b><small>Цена и значок валюты загружаются автоматически из каталога Яндекс Игр.</small></div>
+          </div>
+          <div id="iapProductList" class="scroll-list vault-product-list"></div>
+
+          <div class="vault-section-head shard-head">
+            <div><b>Магазин за Осколки</b><small>Эти предметы покупаются за внутриигровую премиальную валюту.</small></div>
+          </div>
+          <div id="shardStoreList" class="shard-store-list"></div>
+
+          <div class="vault-section-head shard-head">
+            <div><b>Активная паутина</b><small>Выбирай любой уже открытый визуальный эффект.</small></div>
+          </div>
+          <div id="webFxPicker" class="web-fx-picker"></div>
+        </div>
+
+<div id="achievementsTab" class="tab-content">
+          <div id="achievementList" class="scroll-list"></div>
+        </div>
+      </section>
+    </main>
+    <nav id="bottomDock" class="bottom-dock glass" aria-label="Основная навигация">
+      <button class="dock-btn active" data-bottom-target="shop"><span>🏠</span><b>Главная</b></button>
+      <button class="dock-btn" data-bottom-target="map"><span>🗺️</span><b>Районы</b></button>
+      <button class="dock-btn" data-bottom-target="heroes"><span>🎭</span><b>Герои</b></button>
+      <button class="dock-btn" data-bottom-target="daily"><span>📋</span><b>Задания</b></button>
+      <button class="dock-btn donate" data-bottom-target="vault"><span>💎</span><b>Донат</b></button>
+    </nav>
+  </div>
+
+  <div id="screenWebOverlay" class="screen-web-overlay" aria-hidden="true">
+    <span class="web-line l1"></span>
+    <span class="web-line l2"></span>
+    <span class="web-line l3"></span>
+    <span class="web-line l4"></span>
+    <span class="web-line l5"></span>
+    <span class="web-line l6"></span>
+    <span class="web-line l7"></span>
+    <span class="web-line l8"></span>
+    <span class="web-corner c1"></span>
+    <span class="web-corner c2"></span>
+    <span class="web-corner c3"></span>
+    <span class="web-corner c4"></span>
+    <span class="web-ring"></span>
+  </div>
+
+  <div id="eventClearBanner" class="event-clear-banner hidden">
+    <span id="eventClearIcon">✓</span>
+    <div><b id="eventClearTitle">СЕКТОР ЗАЧИЩЕН</b><small id="eventClearReward">+0</small></div>
+  </div>
+
+  <div id="levelBurst" class="level-burst hidden">
+    <span>УРОВЕНЬ</span><b id="levelBurstValue">2</b><small id="levelBurstReward">Новая награда</small>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+
+  <div id="musicModal" class="modal hidden">
+    <div class="modal-card glass music-modal-card">
+      <button class="modal-close" data-close="musicModal">×</button>
+      <div class="daily-hero">🎧</div>
+      <h2>Музыка города</h2>
+      <p>В авто-режиме музыка меняется сама. Во время тревог включается ускоренный ритм, а у боссов — отдельная боевая тема.</p>
+      <div class="music-controls">
+        <button id="musicToggleBtn" class="secondary-btn">Музыка включена</button>
+        <button id="musicAutoBtn" class="secondary-btn">Режим: Авто</button>
+      </div>
+      <div id="musicTrackList" class="music-track-list"></div>
+      <p class="fine-print">Музыка генерируется внутри игры через Web Audio и не использует сторонние композиции.</p>
+    </div>
+  </div>
+
+<div id="themeModal" class="modal hidden">
+    <div class="modal-card glass">
+      <button class="modal-close" data-close="themeModal">×</button>
+      <h2>Выбери тему</h2>
+      <p>Тема меняет весь интерфейс, фон и визуальные акценты.</p>
+      <div class="theme-grid">
+        <button class="theme-choice red-choice" data-theme-choice="red"><span></span><b>Красная</b></button>
+        <button class="theme-choice dark-choice" data-theme-choice="dark"><span></span><b>Тёмная</b></button>
+        <button class="theme-choice light-choice" data-theme-choice="light"><span></span><b>Светлая</b></button>
+        <button class="theme-choice neon-choice" data-theme-choice="neon"><span></span><b>Неоновая</b></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dailyModal" class="modal hidden">
+    <div class="modal-card glass">
+      <button class="modal-close" data-close="dailyModal">×</button>
+      <div class="daily-hero">🎁</div>
+      <h2>Ежедневный трофей</h2>
+      <p id="dailyRewardText">Возвращайся каждый день. Серия повышает награду.</p>
+      <div id="dailyRewardDays" class="daily-days"></div>
+      <button id="claimDailyBtn" class="primary-btn">Забрать награду</button>
+    </div>
+  </div>
+
+  <div id="inviteModal" class="modal hidden">
+    <div class="modal-card glass">
+      <button class="modal-close" data-close="inviteModal">×</button>
+      <div class="daily-hero">🤝</div>
+      <h2>Пригласить друзей</h2>
+      <p>После публикации ссылка ведёт на эту же игру в Яндекс Играх. Для честных наград пригласившему нужен серверный учёт приглашений.</p>
+      <div class="invite-code-box">
+        <span>Твой код</span>
+        <b id="inviteCode">ГОСТЬ</b>
+      </div>
+      <button id="shareInviteBtn" class="primary-btn">Поделиться ссылкой</button>
+      <button id="authBtn" class="secondary-btn">Войти с Яндекс ID для рефералов</button>
+      <p id="referralStatus" class="fine-print">Серверные реферальные награды пока не активированы.</p>
+    </div>
+  </div>
+
+
+  <div id="welcomeModal" class="modal hidden">
+    <div class="modal-card glass welcome-card">
+      <div class="welcome-logo">◆</div>
+      <span class="world-eyebrow">Багровая Сеть</span>
+      <h2>Город уже проснулся</h2>
+      <p>Охоться на угрозы, переключай миры, собирай живых героев и побеждай злодеев-двойников.</p>
+      <div class="welcome-features">
+        <div><span>🌍</span><b>4 мира</b><small>разные правила и экономика</small></div>
+        <div><span>👹</span><b>Герои и монстры</b><small>разные формы и сборки</small></div>
+        <div><span>⚔️</span><b>Живые события</b><small>элиты, боссы и эскалация</small></div>
+      </div>
+      <button id="welcomeGuestBtn" class="primary-btn">Играть гостем</button>
+      <button id="welcomeAuthBtn" class="secondary-btn">Войти с Яндекс ID</button>
+      <p class="fine-print">Вход с Яндекс ID нужен для удобной синхронизации прогресса, реферальных функций и восстановления данных. Можно продолжить без входа.</p>
+    </div>
+  </div>
+
+
+  <div id="victoryModal" class="modal hidden">
+    <div class="modal-card glass victory-card">
+      <div class="victory-rays"></div>
+      <span class="victory-eyebrow">БОСС ПОВЕРЖЕН</span>
+      <div id="victoryBossVisual" class="victory-boss-visual"></div>
+      <h2 id="victoryBossName">Клык остановлен</h2>
+      <p id="victoryBossText">Район снова под контролем Сети.</p>
+      <div class="victory-loot-grid">
+        <div><span>✦</span><b id="victoryReward">+0</b><small>ресурс</small></div>
+        <div><span>⭐</span><b id="victoryXp">+0 XP</b><small>опыт</small></div>
+        <div id="victoryUnlockBox"><span>🎭</span><b id="victoryUnlock">—</b><small>награда района</small></div>
+      </div>
+      <button id="victoryContinueBtn" class="primary-btn victory-continue">Продолжить патруль</button>
+    </div>
+  </div>
+
+<div id="infoModal" class="modal hidden">
+    <div class="modal-card glass">
+      <button class="modal-close" data-close="infoModal">×</button>
+      <h2>Как играть</h2>
+      <p>Ты управляешь оригинальным защитником Багровой Сети. Выпускай энергетические нити, нейтрализуй угрозы и строй автоматический дозор.</p>
+      <p><b>Уровень:</b> клики, миссии и улучшения дают XP. Когда шкала заполнена, нажми «Повысить уровень». Каждый уровень усиливает эффективность на 5% и сразу выдаёт награду. На вкладке «Уровни» можно посмотреть весь путь и будущие призы.</p>
+      <p><b>Живые события города:</b> через случайные промежутки появляется срочная угроза. После серии побед повышается уровень опасности: враги становятся сильнее, но и награды заметно растут. Иногда появляется элитная угроза.</p>
+      <p><b>Тактические модули:</b> каждые 5 уровней ты получаешь очко специализации. «Штурмовик» усиливает клики и критические попадания, «Сеть» усиливает пассивный дозор, «Охотник» повышает награды за события и эффективность против боссов.</p>
+      <p><b>Миры:</b> переключатель находится сверху раздела «Районы» и перестраивает фон, погоду, музыку, угрозы, магазин и экономические модификаторы. Багровый Мегаполис любит активные клики; Неоновая Гавань — пассивную сеть; Полярный Ковчег — выживание и XP; Астра-Сити — поздние боссы и редкие награды.</p>
+      <p><b>Герои и существа:</b> Арсен и Ника — люди. Рэй — биоэлектрический хищник, Мира — крылатая ночная тварь, Кай — кристаллический космический зверь. Это разные модели, а не перекрашенные лица.</p>
+      <p><b>Районы и боссы:</b> город расширен до восьми районов. У каждого района есть собственный живой анимированный босс и уникальный костюм.</p>
+      <p><b>Паутина:</b> каждый клик звучит как выпуск паутины. Визуальная сеть появляется в разных местах экрана, под случайными углами и с разной плотностью.</p>
+      <p><b>Суперприём:</b> клики и критические попадания заряжают уникальную способность текущего героя. В бою она наносит мощный урон, а вне боя создаёт ресурсный импульс.</p>
+      <p><b>Первый патруль:</b> новый игрок проходит короткое обучение: паутина → первое улучшение → тайник → районы и боссы. Обучение можно пропустить.</p>
+      <p><b>Миссии дня:</b> каждый календарный день формируется новый набор задач и наград.</p>
+      <p><b>Хранилище Сети:</b> покупки идут только через Яндекс Игры. Там можно получить Осколки Нексуса, коллекционного монстра, эффекты паутины, музыкальный набор и косметику. Покупки не обязательны для прохождения.</p>
+      <p><b>Наследие:</b> поздняя механика перезапуска, которая оставляет постоянный множитель.</p>
+      <p>Визуальный мир полностью оригинальный: без персонажей, логотипов и материалов чужих супергеройских франшиз.</p>
+      <button id="resetBtn" class="danger-btn">Сбросить весь прогресс</button>
+    </div>
+  </div>
+
+
+  <div id="tutorialOverlay" class="tutorial-overlay hidden">
+    <div id="tutorialDim" class="tutorial-dim"></div>
+    <div class="tutorial-coach">
+      <img src="assets/chibi/arsen.webp" alt="Арсен">
+      <div class="tutorial-copy">
+        <span id="tutorialEyebrow">ПЕРВЫЙ ПАТРУЛЬ · 1/5</span>
+        <b id="tutorialTitle">Проверь паутину</b>
+        <p id="tutorialText">Нажми на героя 5 раз. Каждое нажатие запускает сеть и приносит ресурс.</p>
+        <div class="tutorial-progress"><div id="tutorialProgressFill"></div></div>
+        <small id="tutorialProgressText">0 / 5</small>
+      </div>
+      <button id="tutorialSkipBtn" class="tutorial-skip">Пропустить</button>
+    </div>
+  </div>
+
+
+  <aside id="rcDiagnostics" class="rc-diagnostics hidden" aria-label="Release Candidate diagnostics">
+    <div class="rc-diag-head"><b>BUILD 0.19.0</b><button id="rcDiagClose" type="button">×</button></div>
+    <div class="rc-diag-grid">
+      <span>SDK</span><b id="diagSdk">waiting</b>
+      <span>Game Ready</span><b id="diagReady">no</b>
+      <span>I18N</span><b id="diagLang">—</b>
+      <span>Player</span><b id="diagPlayer">guest</b>
+      <span>Cloud</span><b id="diagCloud">local</b>
+      <span>Payments</span><b id="diagPayments">waiting</b>
+      <span>Gameplay</span><b id="diagGameplay">stopped</b>
+      <span>Focus</span><b id="diagFocus">active</b>
+    </div>
+    <small>?rc-debug=1 · для проверки черновика</small>
+  </aside>
+
+  <script src="game.js"></script>
+</body>
+</html>
