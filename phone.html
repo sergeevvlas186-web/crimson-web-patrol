@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#160508">
-  <title>Багровая Сеть: Живые Злодеи</title>
-  <link rel="stylesheet" href="style.css?v=20.0.6">
-  <link rel="stylesheet" href="premium_skin.css?v=20.0.6">
+  <title>Багровая Сеть: Живой Патруль</title>
+  <link rel="stylesheet" href="style.css?v=1.0.0">
+  <link rel="stylesheet" href="premium_skin.css?v=1.0.0">
 </head>
-<body data-build="0.20.6">
+<body data-build="1.0.0">
   <div class="comic-bg" aria-hidden="true">
     <div class="moon"></div>
     <div class="speed-lines"></div>
@@ -36,7 +36,7 @@
 
   <div id="releaseSplash" class="release-splash">
     <div class="release-splash-glow"></div>
-    <img src="assets/chibi/arsen.webp?v=20.0.6" alt="" class="release-splash-hero">
+    <img src="assets/chibi/arsen.webp?v=1.0.0" alt="" class="release-splash-hero">
     <div class="release-splash-logo">◆</div>
     <h1>БАГРОВАЯ СЕТЬ</h1>
     <p>WebGL Patrol</p>
@@ -47,7 +47,7 @@
   <div class="app">
     <header class="hud glass premium-hud">
       <div class="hud-profile">
-        <div class="hud-avatar-frame"><img id="topHeroAvatar" src="assets/chibi/arsen.webp?v=20.0.6" alt="Герой"></div>
+        <div class="hud-avatar-frame"><img id="topHeroAvatar" src="assets/chibi/arsen.webp?v=1.0.0" alt="Герой"></div>
         <div class="hud-level-copy"><span>УРОВЕНЬ</span><b id="rankText">1</b><div class="rank-track"><div id="rankFill"></div></div><small id="xpText">0 / 100 XP</small></div>
       </div>
       <button class="hud-resource hud-coin" data-home-focus="true"><span class="hud-resource-icon">✦</span><div><b id="topThreats">0</b><small id="topPerSecond">+0/сек</small></div></button>
@@ -75,7 +75,7 @@
         </div>
         <div class="side-actions side-right" aria-label="Награды">
           <button class="side-action" id="sideGiftBtn"><span>🎁</span><b>ПОДАРОК</b><i id="sideGiftDot" class="hidden">!</i></button>
-          <button class="side-action" id="sideSpinBtn"><span>🎡</span><b>БУСТ</b></button>
+          <button class="side-action" id="sideSpinBtn" aria-label="Смотреть рекламу: Адреналин x2 на 2 минуты"><span>🎬</span><b>РЕКЛАМА x2</b></button>
           <button class="side-action" id="sideFreeBtn"><span>🧰</span><b>ТАЙНИК</b></button>
         </div>
         <div class="resource-row">
@@ -286,7 +286,7 @@
         <div class="action-grid">
           <button id="rewardBtn" class="action-card green-card">
             <span class="action-icon">▶</span>
-            <span><b>Адреналин x2</b><small id="rewardHint">ускорить дозор на 2 минуты</small></span>
+            <span><b>Реклама: Адреналин x2</b><small id="rewardHint">за просмотр · x2 на 2 минуты</small></span>
           </button>
           <button id="chestBtn" class="action-card amber-card">
             <span class="action-icon">🧰</span>
@@ -595,7 +595,7 @@
   <div id="tutorialOverlay" class="tutorial-overlay hidden">
     <div id="tutorialDim" class="tutorial-dim"></div>
     <div class="tutorial-coach">
-      <img src="assets/chibi/arsen.webp?v=20.0.6" alt="Арсен">
+      <img src="assets/chibi/arsen.webp?v=1.0.0" alt="Арсен">
       <div class="tutorial-copy">
         <span id="tutorialEyebrow">ПЕРВЫЙ ПАТРУЛЬ · 1/5</span>
         <b id="tutorialTitle">Проверь паутину</b>
@@ -609,7 +609,7 @@
 
 
   <aside id="rcDiagnostics" class="rc-diagnostics hidden" aria-label="Release Candidate diagnostics">
-    <div class="rc-diag-head"><b>BUILD 0.20.6</b><button id="rcDiagClose" type="button">×</button></div>
+    <div class="rc-diag-head"><b>BUILD 1.0.0</b><button id="rcDiagClose" type="button">×</button></div>
     <div class="rc-diag-grid">
       <span>SDK</span><b id="diagSdk">waiting</b>
       <span>Game Ready</span><b id="diagReady">no</b>
@@ -623,6 +623,6 @@
     <small>?rc-debug=1 · для проверки черновика</small>
   </aside>
 
-  <script src="game.js?v=20.0.6"></script>
+  <script src="game.js?v=1.0.0"></script>
 </body>
 </html>

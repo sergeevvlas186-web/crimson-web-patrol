@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 
-const BUILD_VERSION="0.20.6";
+const BUILD_VERSION="1.0.0";
 const STORAGE_KEY="crimson_web_patrol_v20";
 const LEGACY_STORAGE_KEYS=["crimson_web_patrol_v19","crimson_web_patrol_v18_1","crimson_web_patrol_v18"];
 const SUPPORTED_GAME_LANGS=["ru"];
@@ -72,7 +72,7 @@ const DANGER_TIERS=[
 
 const HERO_LINES=["Город ещё не спит.","Вижу движение на крышах.","Сеть чувствует угрозу.","Ещё один квартал под защитой.","Нельзя терять темп.","Слышишь сирены? Я уже там.","Сегодня город будет тише.","Держим линию.","Есть контакт. Работаем.","Крыши — лучший наблюдательный пункт."];
 
-const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=20.0.6",nika:"assets/chibi/nika.webp?v=20.0.6",rey:"assets/chibi/rey.webp?v=20.0.6",mira:"assets/chibi/mira.webp?v=20.0.6",kai:"assets/chibi/kai.webp?v=20.0.6",umbra:"assets/chibi/umbra.webp?v=20.0.6"};
+const CHIBI_ASSETS={arsen:"assets/chibi/arsen.webp?v=1.0.0",nika:"assets/chibi/nika.webp?v=1.0.0",rey:"assets/chibi/rey.webp?v=1.0.0",mira:"assets/chibi/mira.webp?v=1.0.0",kai:"assets/chibi/kai.webp?v=1.0.0",umbra:"assets/chibi/umbra.webp?v=1.0.0"};
 const VILLAIN_ASSETS={morana:"assets/villains/morana.webp",volt:"assets/villains/volt.webp",magnetron:"assets/villains/magnetron.webp",burrower:"assets/villains/burrower.webp",grimoire:"assets/villains/grimoire.webp",cryon:"assets/villains/cryon.webp",onyx:"assets/villains/onyx.webp",singular:"assets/villains/singular.webp"};
 const VILLAIN_PROFILES={
  morana:{asset:"morana",name:"Морана · Алый Мираж",skin:"#9d1835",dark:"#260913",glow:"#ff5aa9",stroke:"#ffd2eb",accent:"#ff3f83",motion:"stalker"},
@@ -570,7 +570,7 @@ function activatePlayableUi(){
 function updateSplash(pct,text){
   if(!el.releaseSplash)return;el.releaseLoadFill.style.width=`${Math.max(8,Math.min(100,pct))}%`;if(text)el.releaseLoadText.textContent=text;
 }
-function hideSplash(){if(!el.releaseSplash)return;updateSplash(100,`Сеть готова · RC ${BUILD_VERSION}`);setTimeout(()=>el.releaseSplash.classList.add("hide"),220);setTimeout(()=>el.releaseSplash.remove(),850)}
+function hideSplash(){if(!el.releaseSplash)return;updateSplash(100,`Сеть готова · ${BUILD_VERSION}`);setTimeout(()=>el.releaseSplash.classList.add("hide"),220);setTimeout(()=>el.releaseSplash.remove(),850)}
 
 function addThreats(x){if(!Number.isFinite(x)||x<=0)return;state.threats+=x;state.lifetime+=x}
 function gainXp(x){state.xp+=Math.max(0,x)*cityXpMult()}
@@ -1306,8 +1306,14 @@ function renderCore(){
     const s=Math.max(0,Math.ceil((state.boostUntil-Date.now())/1000));el.boostBadge.classList.remove("hidden");el.boostTime.textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`
   }else el.boostBadge.classList.add("hidden");
 
-  el.rewardBtn.disabled=!sdkReady||adBusy||boosted();
-  el.rewardHint.textContent=boosted()?"ускорение уже активно":!sdkReady?"доступно в Яндекс Играх":adBusy?"открываем рекламу…":"ускорить дозор на 2 минуты";
+  const rewardedReady=sdkReady&&!adBusy&&!boosted();
+  el.rewardBtn.disabled=!rewardedReady;
+  el.rewardHint.textContent=boosted()?"ускорение уже активно":!sdkReady?"доступно в Яндекс Играх":adBusy?"открываем рекламу…":"за просмотр · x2 на 2 минуты";
+  const sideReward=$("sideSpinBtn");
+  if(sideReward){
+    sideReward.disabled=!rewardedReady;
+    sideReward.setAttribute("aria-label",boosted()?"Адреналин x2 уже активен":"Смотреть рекламу: Адреналин x2 на 2 минуты");
+  }
 
   const rem=state.nextChestAt-Date.now();el.chestBtn.disabled=rem>0;
   el.chestHint.textContent=rem>0?`через ${Math.floor(rem/60000)}:${String(Math.floor(rem/1000)%60).padStart(2,"0")}`:"открыть сейчас";
@@ -1928,15 +1934,22 @@ function stopGameplay(){
 }
 function rewarded(){
   userGestureAudio();
-  if(!sdkReady||!ysdk||adBusy||boosted()){if(!sdkReady)toast("Rewarded-реклама заработает после запуска в Яндекс Играх");return}
-  adBusy=true;renderCore();stopGameplay();pauseAudio();let rewardedFlag=false;
+  if(!sdkReady||!ysdk||adBusy||boosted()){if(!sdkReady)toast("Реклама с наградой заработает после запуска в Яндекс Играх");return}
+  adBusy=true;renderCore();stopGameplay();pauseAudio();persist(true);
+  let rewardedFlag=false,adFinished=false;
+  const finishRewardedAd=message=>{
+    if(adFinished)return;
+    adFinished=true;adBusy=false;
+    if(noModalOpen()&&!platformPaused&&!document.hidden)startGameplay();
+    resumeAudioAfterFocus();renderAll();toast(message)
+  };
   try{
     ysdk.adv.showRewardedVideo({callbacks:{
       onRewarded:()=>{rewardedFlag=true;state.boostUntil=Date.now()+BOOST_MS;persist(true)},
-      onClose:()=>{adBusy=false;startGameplay();resumeAudioAfterFocus();renderAll();toast(rewardedFlag?"Адреналин x2 активирован!":"Награда не активирована")},
-      onError:e=>{console.warn(e);adBusy=false;startGameplay();resumeAudioAfterFocus();renderCore();toast("Реклама сейчас недоступна")}
+      onClose:()=>finishRewardedAd(rewardedFlag?"Адреналин x2 активирован!":"Награда не активирована"),
+      onError:e=>{console.warn("rewarded ad",e);finishRewardedAd("Реклама сейчас недоступна")}
     }})
-  }catch(e){console.warn(e);adBusy=false;startGameplay();resumeAudioAfterFocus();renderCore();toast("Реклама сейчас недоступна")}
+  }catch(e){console.warn("rewarded ad",e);finishRewardedAd("Реклама сейчас недоступна")}
 }
 
 function bind(){
