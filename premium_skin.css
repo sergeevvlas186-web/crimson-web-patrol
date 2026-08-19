@@ -668,3 +668,69 @@ html[data-theme="light"] .villain-sprite{filter:drop-shadow(0 18px 15px rgba(50,
 @media(prefers-reduced-motion:reduce){
   .figure-specular,.figure-eye-flash,.asset-villain[data-motion="orbit"] .villain-sprite,.asset-villain[data-motion="specter"] .villain-sprite{animation:none!important}
 }
+
+/* =========================================================
+   V20.2 — CHARACTER SAFE AREA / CENTERED ULTIMATE
+   Every figure gets its own optical scale. The stage clips only its own
+   artwork, so no hero or boss can cover the level, stats or action cards.
+   ========================================================= */
+.premium-hero-stage{overflow:hidden!important;contain:paint;min-height:255px!important}
+.level-card,.mini-stats,.action-grid{position:relative;z-index:2}
+
+.hero-model{--hero-art-size:80%}
+.hero-model[data-model="arsen"]{--hero-art-size:80%}
+.hero-model[data-model="nika"]{--hero-art-size:76%}
+.hero-model[data-model="rey"]{--hero-art-size:82%}
+.hero-model[data-model="mira"]{--hero-art-size:78%}
+.hero-model[data-model="kai"]{--hero-art-size:82%}
+.hero-model[data-model="umbra"]{--hero-art-size:80%}
+.hero-model .figure-body-plane .chibi-sprite,
+.hero-model .figure-extrusion img{width:var(--hero-art-size)!important;height:var(--hero-art-size)!important;object-fit:contain!important}
+
+.asset-villain{--villain-art-size:84%}
+.asset-villain[data-villain="morana"]{--villain-art-size:82%}
+.asset-villain[data-villain="volt"]{--villain-art-size:86%}
+.asset-villain[data-villain="magnetron"]{--villain-art-size:84%}
+.asset-villain[data-villain="burrower"]{--villain-art-size:86%}
+.asset-villain[data-villain="grimoire"]{--villain-art-size:82%}
+.asset-villain[data-villain="cryon"]{--villain-art-size:84%}
+.asset-villain[data-villain="onyx"]{--villain-art-size:84%}
+.asset-villain[data-villain="singular"]{--villain-art-size:84%}
+.asset-villain .figure-body-plane .villain-sprite,
+.asset-villain .villain-extrusion img{width:var(--villain-art-size)!important;height:var(--villain-art-size)!important;object-fit:contain!important}
+
+.hero-button:not(.threat-mode){margin-bottom:28px!important}
+.ultimate-panel{
+  left:50%!important;right:auto!important;bottom:7px!important;margin:0!important;
+  width:min(300px,70%)!important;
+  transform:translateX(-50%) translateZ(40px)!important;
+  transform-origin:50% 50%!important
+}
+
+@media(max-width:900px){
+  .premium-hero-stage{min-height:238px!important}
+  .hero-model[data-model="arsen"]{--hero-art-size:74%}
+  .hero-model[data-model="nika"]{--hero-art-size:72%}
+  .hero-model[data-model="rey"]{--hero-art-size:78%}
+  .hero-model[data-model="mira"]{--hero-art-size:75%}
+  .hero-model[data-model="kai"]{--hero-art-size:78%}
+  .hero-model[data-model="umbra"]{--hero-art-size:76%}
+  .asset-villain[data-villain]{--villain-art-size:80%}
+  .asset-villain[data-villain="morana"],.asset-villain[data-villain="grimoire"]{--villain-art-size:77%}
+  .hero-button:not(.threat-mode){margin-bottom:25px!important}
+  .ultimate-panel{width:min(286px,72%)!important;bottom:6px!important}
+}
+
+@media(max-width:520px){
+  .premium-hero-stage{min-height:224px!important}
+  .hero-model[data-model="arsen"]{--hero-art-size:68%}
+  .hero-model[data-model="nika"]{--hero-art-size:66%}
+  .hero-model[data-model="rey"]{--hero-art-size:72%}
+  .hero-model[data-model="mira"]{--hero-art-size:68%}
+  .hero-model[data-model="kai"]{--hero-art-size:72%}
+  .hero-model[data-model="umbra"]{--hero-art-size:70%}
+  .asset-villain[data-villain]{--villain-art-size:74%}
+  .asset-villain[data-villain="morana"],.asset-villain[data-villain="grimoire"]{--villain-art-size:71%}
+  .hero-button:not(.threat-mode){margin-bottom:23px!important}
+  .ultimate-panel{width:min(272px,76%)!important;bottom:5px!important}
+}
